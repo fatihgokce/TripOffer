@@ -58,7 +58,8 @@
     <ion-footer-bar class="bar-dark">
         <a ng-click="centerOnMe()" class="button button-icon icon ion-navigate">Trip Path</a>
     </ion-footer-bar>
-  <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+ <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
         <script type="text/javascript" charset="utf-8">
 if (!String.prototype.with) {
     String.prototype.with = function () {
@@ -166,16 +167,18 @@ applicationModule.config(['$httpProvider', function ($httpProvider) {
             contentString+="</table></div>";
         var compiled = $compile(contentString)($scope);
 
-        var infowindow = new google.maps.InfoWindow({
-          content: compiled[0]
-        });
-        google.maps.event.addListener(marker, 'click', function() {
-          infowindow.open(map,marker);
-        });
+        var infowindow = new google.maps.InfoWindow();
+        $scope.bindInfoWindow(marker,infowindow,contentString);
                 
             }
             
         }
+        $scope.bindInfoWindow=function(marker, infowindow, html) {
+    marker.addListener('click', function() {
+        infowindow.setContent(html);
+        infowindow.open(map, this);
+    });
+} 
         $scope.loading = $ionicLoading.show({
           content: 'Getting current location...',
           showBackdrop: false
