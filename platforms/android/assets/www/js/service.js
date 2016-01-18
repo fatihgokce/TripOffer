@@ -1,10 +1,15 @@
-applicationModule
+angular.module('ionicApp.services', [])
 .factory('treePageService', function ($http, $q) {
     return {
+        getPathBy:function(food,his,fun,latlng){
+            //(string food,string his,string fun,string latlng)
+               var deferred = $q.defer();          
+            $http.get('http://tripoffer.net/api/values?food='+food+"&his="+his+"&fun="+fun+"&latlng="+latlng).success(deferred.resolve).error(deferred.reject);
+            return deferred.promise;
+        },
         getPaths: function (latlng) {
             var deferred = $q.defer();          
             $http.get('http://tripoffer.net/api/values?latlng='+latlng).success(deferred.resolve).error(deferred.reject);
-           // $http.get({ url: "http://localhost:52582/api/values", method: "get", params: { "latlng": "40.704079,-74.010204" } }).success(deferred.resolve).error(deferred.reject);
             return deferred.promise;
         }
     };

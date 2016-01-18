@@ -1,0 +1,1 @@
+var applicationModule = angular.module('starter', ['ionic','ionicSelect']);

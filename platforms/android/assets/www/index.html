@@ -17,7 +17,7 @@
     specific language governing permissions and limitations
     under the License.
 -->
-<html ng-app="starter">
+<html ng-app="ionicApp">
     <head>
         <!--
         Customize this policy to fit your own app's needs. For more guidance, see:
@@ -36,7 +36,11 @@
        <link href="css/ionicons.min.css" rel="stylesheet">
         <script src="js/ionic.bundle.min.js"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-      
+     <script src="js/app.js"></script>
+        <script src="directive/ionicSelectDirective.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/select2_min.js"></script>
+        <link rel="stylesheet" href="css/select2.min.css">
         <style>
             #map {
             width: 100%;
@@ -48,18 +52,371 @@
             }
         </style>
     </head>
-    <body ng-controller="MapCtrl">
-    <ion-header-bar class="bar-dark" >
-        <h1 class="title">Trip Offer</h1>
-    </ion-header-bar>
-    <ion-content>
-        <div id="map" data-tap-disabled="true"></div>
-    </ion-content>
-    <ion-footer-bar class="bar-dark">
-        <a ng-click="centerOnMe()" class="button button-icon icon ion-navigate">Trip Path</a>
-    </ion-footer-bar>
- <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <body>
+   
+ <ion-nav-bar class="bar-positive nav-title-slide-ios7" align-title="center">
+      <ion-nav-back-button class="button-icon ion-arrow-left-c">
+      </ion-nav-back-button>
+    </ion-nav-bar>
 
+    <ion-nav-view class="slide-left-right"></ion-nav-view>
+
+    <script id="page1.html" type="text/ng-template">
+      <!-- The title of the ion-view will be shown on the navbar -->
+      <ion-view title="Tripper" hide-back-button="true">
+        <ion-content class="padding">
+          <!-- The content of the page -->
+        <div class="row">
+  <div class="col col-33 col-offset-10">
+      <a class="button button-positive" ui-sref="page2">Give it a try</a>
+  </div>  
+</div>
+        <div class="row">
+  <div class="col col-33 col-offset-10">
+      <span style="font-weight:bold">Or</span>
+  </div>  
+</div>  
+ <div class="row">
+  <div class="col col-33 col-offset-10">
+      <span>Choose what you want?</span>
+  </div>  
+</div>
+  <div class="col col-33 col-offset-10">
+      <select class="js-example-placeholder-single" style="width: 100%">
+        <option></option>
+         
+      </select>
+  </div>  
+ <div class="col col-33 col-offset-10">
+      <select class="js-example-placeholder-single2" style="width: 100%">
+        <option></option>
+         
+      </select>
+  </div>  
+<div class="col col-33 col-offset-10">
+      <select class="js-example-placeholder-single3" style="width: 100%">
+        <option></option>
+         
+      </select>
+  </div>  
+<div class="col col-33 col-offset-10">
+    <button class="button button-positive" ng-click="find()">
+  Find
+</button> 
+  </div>
+</div>  
+   
+        </ion-content>
+      </ion-view>
+    </script>    
+
+    <script id="page2.html" type="text/ng-template">
+      <!-- The title of the ion-view will be shown on the navbar -->
+      <ion-view title="Map">
+        <ion-nav-buttons side="left">
+           <a ng-click="centerOnMe()" class="button button-icon icon ion-navigate">Trip Path</a>
+        </ion-nav-buttons>        
+           
+
+        <ion-content class="padding">
+          <!-- The content of the page -->
+           <div id="map" data-tap-disabled="true"></div>
+        </ion-content>
+      </ion-view>
+    </script> 
+
+    <script id="page3.html" type="text/ng-template">
+      <!-- The title of the ion-view will be shown on the navbar -->
+      <ion-view title="List">
+        <ion-content class="padding">
+          <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in lists.$values" type="item-text-wrap" href="#/tab/chats/{{chat.name}}">      
+        <h2>{{chat.name}}</h2>
+       
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="button-assertive" ng-click="remove(chat)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+        </ion-content>
+      </ion-view>
+    </script>
+      <script>
+            var map ;
+            var markers=[];
+         var lists=[];
+
+function getParam(name)
+        {  
+            name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");  
+            var regexS = "[\\?&]"+name+"=([^&#]*)";  
+            var regex = new RegExp( regexS );  
+            var results = regex.exec(window.location.href);
+            if(results == null)
+                return "";  
+            else    
+                return results[1];
+        }
+      angular.module('ionicApp', ['ionic','ionicApp.services'])
+
+.config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider
+  .state('page1', {
+    url: '/1',
+    templateUrl: 'page1.html',
+       controller : "Page1Ctrl"
+  })
+  .state('page2', {
+    url: '/2',
+    templateUrl: 'page2.html',
+        controller : "Page2Ctrl"
+  })
+  .state('page3', {
+    url: '/3',
+    templateUrl: 'page3.html',
+    controller : "Page3Ctrl"
+  })
+  
+  $urlRouterProvider.otherwise("/1");
+})
+.controller('Page1Ctrl', function($scope) {
+$scope.find=function(){
+    
+    location.href="#/3?food="+$(".js-example-placeholder-single").val()+"&his="+$(".js-example-placeholder-single2").val()
+    +"&fun="+$(".js-example-placeholder-single3").val();
+}          
+  window.onload=function(){
+  
+              var dataFood = [{ id:'4bf58dd8d48988d142941735', text: 'Asian Restaurant' }, 
+                          { id: '4bf58dd8d48988d111941735', text: 'Japanese Restaurant' }, 
+                          { id: '4bf58dd8d48988d113941735', text: 'Korean Restaurant' }, 
+                          { id: '4bf58dd8d48988d16a941735', text: 'Bakery' },
+                           { id: '4bf58dd8d48988d16b941735', text: 'Brazilian Restaurant' }, 
+                          { id: '4bf58dd8d48988d143941735', text: 'Breakfast Spot' }, 
+                           { id: '4bf58dd8d48988d128941735', text: 'Cafeteria' }, 
+                           { id: '4bf58dd8d48988d16d941735', text: 'Café' }, 
+                           { id: '4bf58dd8d48988d1e0931735', text: 'Coffee Shop' }, 
+                            { id: '4bf58dd8d48988d1d0941735', text: 'Dessert Shop' }, 
+                            { id: '4bf58dd8d48988d147941735', text: 'Diner' }, 
+                            { id: '4bf58dd8d48988d10b941735', text: 'Falafel Restaurant' }, 
+                            { id: '4bf58dd8d48988d16e941735', text: 'Fast Food Restaurant' }, 
+                            { id: '4edd64a0c7ddd24ca188df1a', text: 'Fish & Chips Shop' }, 
+                            { id: '4bf58dd8d48988d10c941735', text: 'French Restaurant' }, 
+                            { id: '55d25775498e9f6a0816a37a', text: 'Friterie' }, 
+                            { id: '4bf58dd8d48988d10e941735', text: 'Greek Restaurant' }, 
+                            { id: '52e81612bcbc57f1066b79ff', text: 'Halal Restaurant' }, 
+                            { id: '4bf58dd8d48988d10f941735', text: 'Indian Restaurant' }, 
+                            { id: '4bf58dd8d48988d110941735', text: 'Italian Restaurant' }, 
+                            { id: '4f04af1f2fb6e1c99f3db0bb', text: 'Turkish Restaurant' }, 
+                            { id: '4bf58dd8d48988d1d3941735', text: 'Vegetarian / Vegan Restaurant' }, 
+                            { id: '4d4b7105d754a06376d81259', text: 'Nightlife Spot' }, 
+                            { id: '4d4b7105d754a06377d81259', text: 'Outdoors & Recreation' }];
+    
+      var dataHistoric = [{ id:'4bf58dd8d48988d18f941735', text: 'Art Museum' }, 
+                          { id: '4bf58dd8d48988d190941735', text: 'History Museum' }, 
+                          { id: '4bf58dd8d48988d191941735', text: 'Science Museum' }, 
+                          { id: '52e81612bcbc57f1066b7a22', text: 'Botanical Garden' },
+                           { id: '50aaa49e4b90af0d42d5de11', text: 'Castle' }, 
+                          { id: '52e81612bcbc57f1066b7a23', text: 'Forest' }, 
+                           { id: '4bf58dd8d48988d15a941735', text: 'Garden' }, 
+                           { id: '52e81612bcbc57f1066b7a21', text: 'National Park' }, 
+                           { id: '52e81612bcbc57f1066b7a14', text: 'Palace' }, 
+                            { id: '52e81612bcbc57f1066b7a29', text: 'Rafting' }, 
+                            { id: '52e81612bcbc57f1066b7a3e', text: 'Buddhist Temple' }, 
+                            { id: '4bf58dd8d48988d132941735', text: 'Church' }, 
+                            { id: '52e81612bcbc57f1066b7a3f', text: 'Hindu Temple' }, 
+                            { id: '52e81612bcbc57f1066b7a40', text: 'Monastery' }, 
+                            { id: '4bf58dd8d48988d138941735', text: 'Mosque' }, 
+                            { id: '4bf58dd8d48988d13a941735', text: 'Temple' }, 
+                            { id: '4deefb944765f83613cdba6e', text: 'Historic Site' }
+                           ];
+      var dataFun = [{ id:'4fceea171983d5d06c3e9823', text: 'Aquarium' }, 
+                          { id: '52e81612bcbc57f1066b79e7', text: 'Circus' }, 
+                          { id: '4bf58dd8d48988d18e941735', text: 'Comedy Club' }, 
+                          { id: '52e81612bcbc57f1066b79ef', text: 'Country Dance Club' },
+                           { id: '4bf58dd8d48988d1e5931735', text: 'Music Venue' }, 
+                          { id: '4bf58dd8d48988d1fd941735', text: 'Mall' }                          
+                           ];
+        $(".js-example-placeholder-single").select2({
+          
+   placeholder: "Food",
+  allowClear: true,
+ theme: "classic",data:dataFood
+});     
+     $(".js-example-placeholder-single2").select2({
+          
+   placeholder: "Historic",
+  allowClear: true,
+ theme: "classic",data:dataHistoric
+}); 
+           $(".js-example-placeholder-single3").select2({
+          
+   placeholder: "Have a fun",
+  allowClear: true,
+ theme: "classic",data:dataFun
+}); 
+  }
+
+})
+.controller('Page3Ctrl', function($scope,treePageService) {
+  function init(){
+      
+       navigator.geolocation.getCurrentPosition(function(pos) {
+           
+           var ltl=pos.coords.latitude+","+pos.coords.longitude;
+       
+           var his = getParam('his');
+            var fun = getParam('fun');
+           var food=  getParam('food');
+   
+            treePageService.getPathBy(food,his,fun,ltl).then(function (t) {
+           //       var contentString = "<div>You are here</div>";
+        //var compiled = $compile(contentString)($scope);
+          //      $scope.createMarker(ll,contentString,"Here","You are here");
+        //    $scope.createMarkers(t);
+            //$scope.drawPaths();
+                $scope.lists=t;
+              
+        });
+     
+        }, function(error) {
+          alert('Unable to get location: ' + error.message);
+        });
+  }
+          init();
+          $scope.lists=[];
+})
+.controller('Page2Ctrl', function($scope,$ionicLoading, $compile,treePageService) {
+    function initialize() {
+        var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+
+        var mapOptions = {
+          center: myLatlng,
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map"),
+            mapOptions);
+       
+        //Marker + infowindow + angularjs compiled ng-click
+        var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
+        var compiled = $compile(contentString)($scope);
+
+        var infowindow = new google.maps.InfoWindow({
+          content: compiled[0]
+        });
+
+        var marker = new google.maps.Marker({
+          position: myLatlng,
+          map: map,
+          title: 'Uluru (Ayers Rock)'
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.open(map,marker);
+        });
+
+        $scope.map = map;
+      }
+          initialize();
+     // google.maps.event.addDomListener(window, 'load', initialize);
+      $scope.drawPaths=function(){
+          for(var i=0;i<markers.length;i++){
+              if(i<markers.length-1){
+                  $scope.createPath(markers[i],markers[i+1]);
+              }
+          }
+      }
+      $scope.createPath=function(source,destination){
+          var directionsDisplay = new google.maps.DirectionsRenderer;
+          var directionsService = new google.maps.DirectionsService;
+          directionsDisplay.setMap(map);
+
+            directionsService.route({
+            origin: {lat: source.lat(), lng: source.lng()},  // Haight.
+            destination: {lat:destination.lat(), lng: destination.lng()},  // Ocean Beach.
+            // Note that Javascript allows us to access the constant
+            // using square brackets and a string value as its
+            // "property."
+            travelMode:google.maps.TravelMode["WALKING"] //google.maps.TravelMode.WALKING
+            }, function(response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+            } else {
+            window.alert('Directions request failed due to ' + status);
+            }
+            });
+      }
+        $scope.createMarkers=function(paths){
+            paths.$values[0].location.lng;
+      
+            for(var i=0;i<paths.$values.length;i++){
+                var p=paths.$values[i];
+                  var myLatlng = new google.maps.LatLng(p.location.lat,p.location.lng);
+                markers.push(myLatlng);
+                  var contentString = "<div><table><tr><td>Name</td><td>:</td><td>{0}</td></tr>".with(p.name);
+            contentString+="<tr><td>Adress</td><td>:</td><td>{0}</td></tr>".with(p.location.address);
+            contentString+="</table></div>";
+        var compiled = $compile(contentString)($scope);
+                $scope.createMarker(myLatlng,contentString,(i+1).toString(),p.name);
+                
+            }
+            
+        }
+        $scope.createMarker=function(latlng,html,label,name){
+             var marker = new google.maps.Marker({
+                  position: latlng,
+                  map: map,
+                  label:label,
+                  title: name
+                });
+      
+
+        var infowindow = new google.maps.InfoWindow();
+        $scope.bindInfoWindow(marker,infowindow,html);
+        }
+        $scope.bindInfoWindow=function(marker, infowindow, html) {
+    marker.addListener('click', function() {
+        infowindow.setContent(html);
+        infowindow.open(map, this);
+    });
+} 
+      $scope.centerOnMe = function() {
+
+        navigator.geolocation.getCurrentPosition(function(pos) {
+              markers.clear();
+            var ll=new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+           map.setCenter(ll);
+            markers.push(ll);
+           var ltl=pos.coords.latitude+","+pos.coords.longitude;
+            treePageService.getPaths(ltl).then(function (t) {
+                lists=t;
+                  var contentString = "<div>You are here</div>";
+        var compiled = $compile(contentString)($scope);
+                $scope.createMarker(ll,contentString,"Here","You are here");
+            $scope.createMarkers(t);
+            //$scope.drawPaths();
+              
+        });
+       
+        }, function(error) {
+          alert('Unable to get location: ' + error.message);
+        });
+      }
+
+      $scope.clickTest = function() {
+        alert('Example of infowindow with ng-click')
+      };
+
+})
+
+      </script>
+
+<!-- 
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+-->
         <script type="text/javascript" charset="utf-8">
 if (!String.prototype.with) {
     String.prototype.with = function () {
@@ -70,6 +427,11 @@ if (!String.prototype.with) {
         : match
             ;
         });
+    };
+}
+if (!Array.prototype.clear) {
+    Array.prototype.clear = function() {
+       this.splice(0, this.length);
     };
 }
     // Wait for device API libraries to load
@@ -104,104 +466,7 @@ if (!String.prototype.with) {
     }
 
     </script>
-        <script>
-            var map ;
-            var applicationModule = angular.module('starter', ['ionic']);
-     // angular.module('ionic.example', ['ionic'])
-applicationModule.config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
-}
-]);
-  applicationModule.controller('MapCtrl', function($scope, $ionicLoading, $compile,treePageService) {
-      function initialize() {
-        var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
-
-        var mapOptions = {
-          center: myLatlng,
-          zoom: 16,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        map = new google.maps.Map(document.getElementById("map"),
-            mapOptions);
-
-        //Marker + infowindow + angularjs compiled ng-click
-        var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
-        var compiled = $compile(contentString)($scope);
-
-        var infowindow = new google.maps.InfoWindow({
-          content: compiled[0]
-        });
-
-        var marker = new google.maps.Marker({
-          position: myLatlng,
-          map: map,
-          title: 'Uluru (Ayers Rock)'
-        });
-
-        google.maps.event.addListener(marker, 'click', function() {
-          infowindow.open(map,marker);
-        });
-
-        $scope.map = map;
-      }
-      google.maps.event.addDomListener(window, 'load', initialize);
-
-      $scope.centerOnMe = function() {
-        if(!$scope.map) {
-          return;
-        }
-        $scope.createMarker=function(paths){
-            paths.$values[0].location.lng;
-      
-            for(var i=0;i<paths.$values.length;i++){
-                var p=paths.$values[i];
-                  var myLatlng = new google.maps.LatLng(p.location.lat,p.location.lng);
-                 var marker = new google.maps.Marker({
-                  position: myLatlng,
-                  map: map,
-                  title: p.name
-                });
-        var contentString = "<div><table><tr><td>Name</td><td>:</td><td>{0}</td></tr>".with(p.name);
-            contentString+="<tr><td>Adress</td><td>:</td><td>{0}</td></tr>".with(p.location.address);
-            contentString+="</table></div>";
-        var compiled = $compile(contentString)($scope);
-
-        var infowindow = new google.maps.InfoWindow();
-        $scope.bindInfoWindow(marker,infowindow,contentString);
-                
-            }
-            
-        }
-        $scope.bindInfoWindow=function(marker, infowindow, html) {
-    marker.addListener('click', function() {
-        infowindow.setContent(html);
-        infowindow.open(map, this);
-    });
-} 
-        $scope.loading = $ionicLoading.show({
-          content: 'Getting current location...',
-          showBackdrop: false
-        });
-
-        navigator.geolocation.getCurrentPosition(function(pos) {
-          $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-           var ltl=pos.coords.latitude+","+pos.coords.longitude;
-            treePageService.getPaths(ltl).then(function (t) {
-            $scope.createMarker(t);
-        });
-          $scope.loading.hide();
-        }, function(error) {
-          alert('Unable to get location: ' + error.message);
-        });
-      };
-
-      $scope.clickTest = function() {
-        alert('Example of infowindow with ng-click')
-      };
-
-    });
-      </script>
+       
       <script src="js/service.js"></script>
     </body>
 </html>
