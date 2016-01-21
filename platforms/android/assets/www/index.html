@@ -104,7 +104,7 @@ if (!Array.prototype.clear) {
     </head>
     <body>
    
- <ion-nav-bar class="bar-positive nav-title-slide-ios7" align-title="center">
+ <ion-nav-bar class="bar bar-header bar-assertive nav-title-slide-ios7" align-title="center">
       <ion-nav-back-button class="button-icon ion-arrow-left-c">
       </ion-nav-back-button>
     </ion-nav-bar>
@@ -197,7 +197,7 @@ if (!Array.prototype.clear) {
             var map ;
             var markers=[];
          var lists=[];
-
+var ff;
 function getParam(name)
         {  
             name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");  
@@ -214,8 +214,8 @@ module.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
   .state('page1', {
     url: '/1',
-    templateUrl: 'page1.html',
-       controller : "Page1Ctrl"
+    templateUrl: 'templates/home.html',
+       controller : "HomeCtrl"
   })
   .state('page2', {
     url: '/2',
@@ -230,16 +230,11 @@ module.config(function($stateProvider, $urlRouterProvider) {
   
   $urlRouterProvider.otherwise("/1");
 })
-.controller('Page1Ctrl', function($scope) {
-$scope.find=function(){
-    if(lists)
-        lists.clear();
-    location.href="#/3?food="+$(".js-example-placeholder-single").val()+"&his="+$(".js-example-placeholder-single2").val()
-    +"&fun="+$(".js-example-placeholder-single3").val();
-}          
-  window.onload=function(){
-  
-              var dataFood = [{ id:'4bf58dd8d48988d142941735', text: 'Asian Restaurant' }, 
+.controller('HomeCtrl', function($scope) {
+ $scope.selectedFood={};
+    $scope.selectedHistoric={};
+        $scope.selectedFun={};
+ $scope.dataFood = [{ id:'4bf58dd8d48988d142941735', text: 'Asian Restaurant' }, 
                           { id: '4bf58dd8d48988d111941735', text: 'Japanese Restaurant' }, 
                           { id: '4bf58dd8d48988d113941735', text: 'Korean Restaurant' }, 
                           { id: '4bf58dd8d48988d16a941735', text: 'Bakery' },
@@ -262,9 +257,9 @@ $scope.find=function(){
                             { id: '4f04af1f2fb6e1c99f3db0bb', text: 'Turkish Restaurant' }, 
                             { id: '4bf58dd8d48988d1d3941735', text: 'Vegetarian / Vegan Restaurant' }, 
                             { id: '4d4b7105d754a06376d81259', text: 'Nightlife Spot' }, 
-                            { id: '4d4b7105d754a06377d81259', text: 'Outdoors & Recreation' }];
+                            { id: '4d4b7105d754a06377d81259', text: 'Outdoors & Recreation' }];  
     
-      var dataHistoric = [{ id:'4bf58dd8d48988d18f941735', text: 'Art Museum' }, 
+$scope.dataHistoric = [{ id:'4bf58dd8d48988d18f941735', text: 'Art Museum' }, 
                           { id: '4bf58dd8d48988d190941735', text: 'History Museum' }, 
                           { id: '4bf58dd8d48988d191941735', text: 'Science Museum' }, 
                           { id: '52e81612bcbc57f1066b7a22', text: 'Botanical Garden' },
@@ -282,32 +277,22 @@ $scope.find=function(){
                             { id: '4bf58dd8d48988d13a941735', text: 'Temple' }, 
                             { id: '4deefb944765f83613cdba6e', text: 'Historic Site' }
                            ];
-      var dataFun = [{ id:'4fceea171983d5d06c3e9823', text: 'Aquarium' }, 
+      $scope.dataFun = [{ id:'4fceea171983d5d06c3e9823', text: 'Aquarium' }, 
                           { id: '52e81612bcbc57f1066b79e7', text: 'Circus' }, 
                           { id: '4bf58dd8d48988d18e941735', text: 'Comedy Club' }, 
                           { id: '52e81612bcbc57f1066b79ef', text: 'Country Dance Club' },
                            { id: '4bf58dd8d48988d1e5931735', text: 'Music Venue' }, 
                           { id: '4bf58dd8d48988d1fd941735', text: 'Mall' }                          
                            ];
-        $(".js-example-placeholder-single").select2({
-          
-   placeholder: "Food",
-  allowClear: true,
- theme: "classic",data:dataFood
-});     
-     $(".js-example-placeholder-single2").select2({
-          
-   placeholder: "Historic",
-  allowClear: true,
- theme: "classic",data:dataHistoric
-}); 
-           $(".js-example-placeholder-single3").select2({
-          
-   placeholder: "Have a fun",
-  allowClear: true,
- theme: "classic",data:dataFun
-}); 
-  }
+$scope.selectedFood = $scope.dataFood[0];
+$scope.selectedHistoric = $scope.dataHistoric[0];
+$scope.selectedFun = $scope.dataFun[0];
+$scope.find=function(){
+    if(lists)
+        lists.clear();
+    location.href="#/3?food="+$scope.selectedFood.id+"&his="+$scope.selectedHistoric.id
+    +"&fun="+$scope.selectedFun.id;
+}          
 
 })
 .controller('Page3Ctrl', function($scope,treePageService) {
