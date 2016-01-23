@@ -110,55 +110,6 @@ if (!Array.prototype.clear) {
 
     <ion-nav-view class="slide-left-right"></ion-nav-view>
 
-    <script id="page1.html" type="text/ng-template">
-      <!-- The title of the ion-view will be shown on the navbar -->
-      <ion-view title="Tripper" hide-back-button="true">
-        <ion-content class="padding">
-          <!-- The content of the page -->
-        <div class="row">
-  <div class="col col-33 col-offset-10">
-      <a class="button button-positive" ui-sref="page2">Give it a try</a>
-  </div>  
-</div>
-        <div class="row">
-  <div class="col col-33 col-offset-10">
-      <span style="font-weight:bold">Or</span>
-  </div>  
-</div>  
- <div class="row">
-  <div class="col col-33 col-offset-10">
-      <span>Choose what you want?</span>
-  </div>  
-</div>
-  <div class="col col-33 col-offset-10">
-      <select class="js-example-placeholder-single" style="width: 100%">
-        <option></option>
-         
-      </select>
-  </div>  
- <div class="col col-33 col-offset-10">
-      <select class="js-example-placeholder-single2" style="width: 100%">
-        <option></option>
-         
-      </select>
-  </div>  
-<div class="col col-33 col-offset-10">
-      <select class="js-example-placeholder-single3" style="width: 100%">
-        <option></option>
-         
-      </select>
-  </div>  
-<div class="col col-33 col-offset-10">
-    <button class="button button-positive" ng-click="find()">
-  Find
-</button> 
-  </div>
-
-   
-        </ion-content>
-      </ion-view>
-    </script>    
-
     <script id="page2.html" type="text/ng-template">
       <!-- The title of the ion-view will be shown on the navbar -->
       <ion-view title="">
@@ -184,6 +135,12 @@ if (!Array.prototype.clear) {
                Show on Map</a>
         </ion-nav-buttons>    
         <ion-content class="padding">
+<div style=" width:100%;  
+  display: table;color:blue; 
+ " id="loading">
+<ion-spinner icon="spiral" style="text-align:center;vertical-align:middle;color:blue"></ion-spinner>
+</div>
+      
           <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in lists" type="item-text-wrap">      
         <h2>{{chat.name}}</h2>      
@@ -230,7 +187,8 @@ module.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/1");
 })
 .controller('HomeCtrl', function($scope) {
- $scope.selectedFood={};
+
+ //$scope.selectedFood={};
     $scope.selectedHistoric={};
         $scope.selectedFun={};
  $scope.dataFood = [{ id:'4bf58dd8d48988d142941735', text: 'Asian Restaurant' }, 
@@ -283,14 +241,23 @@ $scope.dataHistoric = [{ id:'4bf58dd8d48988d18f941735', text: 'Art Museum' },
                            { id: '4bf58dd8d48988d1e5931735', text: 'Music Venue' }, 
                           { id: '4bf58dd8d48988d1fd941735', text: 'Mall' }                          
                            ];
+$scope.init=function(){
 $scope.selectedFood = $scope.dataFood[0];
 $scope.selectedHistoric = $scope.dataHistoric[0];
-$scope.selectedFun = $scope.dataFun[0];
+$scope.selectedFun = $scope.dataFun[0];   
+
+
+}
+$scope.changedColor=function(i){
+    $scope.selectedFood=$scope.dataFood[i];
+   alert($scope.selectedFood.text ); 
+}
+$scope.init();
 $scope.find=function(){
     if(lists)
         lists.clear();
-    location.href="#/3?food="+$scope.selectedFood.id+"&his="+$scope.selectedHistoric.id
-    +"&fun="+$scope.selectedFun.id;
+    location.href="#/3?food="+$(".js-example-placeholder-single").val().replace("string:","")+"&his="+$(".js-example-placeholder-single2").val().replace("string:","")
+    +"&fun="+$(".js-example-placeholder-single3").val().replace("string:","");
 }          
 
 })
@@ -299,7 +266,7 @@ $scope.find=function(){
             location.href="#/2?from=3";   
           }
   function init(){
-      
+       $("#loading").css("display","block");
        navigator.geolocation.getCurrentPosition(function(pos) {
            
            var ltl=pos.coords.latitude+","+pos.coords.longitude;
@@ -316,6 +283,7 @@ $scope.find=function(){
             //$scope.drawPaths();
                 $scope.lists=t.$values;
                 lists=t.$values;
+                $("#loading").css("display","none");
               
         });
      

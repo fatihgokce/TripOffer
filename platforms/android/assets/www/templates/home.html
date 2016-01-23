@@ -19,16 +19,16 @@
             <label class="item item-select">
                 <span class="input-label">Food</span>
                 
-                <select class="js-example-placeholder-single" ng-model="selectedFood"  ng-options="item as item.text for item in dataFood">                  
+                <select name="food" class="js-example-placeholder-single" ng-model="selectedFood.id"  ng-options="item.id as item.text for item in dataFood" >                  
                 </select>
             </label>
             <label class="item item-select">
                 <span class="input-label">Historic</span>
-                <select class="js-example-placeholder-single2" ng-model="selectedHistoric"  ng-options="item as item.text for item in dataHistoric"></select>              
+                <select class="js-example-placeholder-single2" ng-model="selectedHistoric.id"  ng-options="item.id as item.text for item in dataHistoric" name="historic"></select>              
             </label>
       <label class="item item-select">
                 <span class="input-label">Fun</span>
-               <select class="js-example-placeholder-single3" ng-model="selectedFun"  ng-options="item as item.text for item in dataFun"></select>
+               <select class="js-example-placeholder-single3" ng-model="selectedFun.id"  ng-options="item.id as item.text for item in dataFun" name="fun"></select>
             </label>
         </form>
         <button class="button button-positive button-block  icon-right ion-ios-search"   ng-click="find()">Find</button>
