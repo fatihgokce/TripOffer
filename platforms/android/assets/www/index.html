@@ -49,6 +49,25 @@
             .scroll {
             height: 100%;
             }
+   body {
+  /* background: url(img/7.png);*/
+     background-attachment:fixed;
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;       
+   color:#ffffff;
+background-color: #FF6207 !important;
+    }
+.background, .background .pane, .background .item, .background .item-complex .item-content {
+    background-color: yellow !important;
+}
+body .view-container.tab-content {
+  background-color: transparent;
+}
+.pane {
+    background-color: #490A3D !important;
+}
         </style>
          <script type="text/javascript" charset="utf-8">
 if (!String.prototype.with) {
@@ -103,7 +122,7 @@ if (!Array.prototype.clear) {
     </head>
     <body>
    
- <ion-nav-bar class="bar bar-header bar-assertive nav-title-slide-ios7" align-title="center">
+ <ion-nav-bar class="bar bar-header bar-stable nav-title-slide-ios7" align-title="center">
       <ion-nav-back-button class="button-icon ion-arrow-left-c">
       </ion-nav-back-button>
     </ion-nav-bar>

@@ -1,20 +1,26 @@
 <ion-view title="Tripper" class="pane">
     <ion-content overflow-scroll="true" padding="true" style="background: url(img/pHu0sC0vS0KmXvHMWAJn_images%2520(3).jpeg) no-repeat center;" scroll="false" class="has-header has-footer">
-        <button class="button button-positive button-block  button-full" ui-sref="page2">Give a try</button>
+<div class="card">
+  <div class="item item-text-wrap">
+       <button class="button button-energized button-block  button-full" ui-sref="page2">Give a try</button>
+    </div>
+        </div>
+       
 <div style=" width:100%;  
   display: table">
-<p style=" text-align:center; color:#7E8281;
+<p style=" text-align:center; color:#fff;
   vertical-align: middle;
   display: table-cell;font-weight:bold">Or</p>
 </div> 
 <div style=" width:100%;  
   display: table; 
  ">
-<p style=" text-align:center; color:#7E8281;
+<p style=" text-align:center; color:#fff;
   vertical-align: middle;
   display: table-cell;font-weight:bold">Choose what you want?</p>
 </div>
-
+<div class="card">
+  <div class="item item-text-wrap">
         <form class="list">
             <label class="item item-select">
                 <span class="input-label">Food</span>
@@ -31,6 +37,8 @@
                <select class="js-example-placeholder-single3" ng-model="selectedFun.id"  ng-options="item.id as item.text for item in dataFun" name="fun"></select>
             </label>
         </form>
-        <button class="button button-positive button-block  icon-right ion-ios-search"   ng-click="find()">Find</button>
+        <button class="button button-energized button-block  icon-right ion-ios-search"   ng-click="find()">Find</button>
+    </div>
+        </div>
     </ion-content>
 </ion-view>
