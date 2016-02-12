@@ -66,7 +66,48 @@ body .view-container.tab-content {
   background-color: transparent;
 }
 .pane {
-    background-color: #490A3D !important;
+    background-color: #00A652 !important;
+}
+.card{margin: :10px !important;}
+.item-radio .item-content {
+      padding: 0px;
+      background: none;
+    }
+
+    .button-bar .button {
+      min-height: 0;
+      line-height: 30px;
+    }
+    .button-bar > .item-radio.button {
+      padding: 0;
+    }
+    .item-radio input:checked ~ .item-content {
+    /* style the item content when its checked */
+    border-color: #145fd7;
+    background-color: #4a87ee;
+    color: white;
+   }
+
+   .item-radio .radio-icon {
+    display: none;
+   }
+
+.button.button-positive.button-outline.active, .button.button-positive.button-outline.activated {
+        background-color: #4a87ee;
+        box-shadow: none;
+        color: #fff; }
+
+  .card .item:last-child, .list-inset .item:last-child {
+    margin-bottom: 0;
+  }
+.list {
+margin-bottom: 2px !important;
+}
+            .item {
+    padding: 12px !important;
+}
+.button.button-block, .button.button-full {
+    margin-top: 1px !important;margin-bottom: 1px !important; 
 }
         </style>
          <script type="text/javascript" charset="utf-8">
@@ -205,7 +246,7 @@ module.config(function($stateProvider, $urlRouterProvider) {
   
   $urlRouterProvider.otherwise("/1");
 })
-.controller('HomeCtrl', function($scope) {
+.controller('HomeCtrl', function($scope,$window) {
 
  //$scope.selectedFood={};
     $scope.selectedHistoric={};
@@ -264,7 +305,35 @@ $scope.init=function(){
 $scope.selectedFood = $scope.dataFood[0];
 $scope.selectedHistoric = $scope.dataHistoric[0];
 $scope.selectedFun = $scope.dataFun[0];   
-
+	$scope.grossOptionsList = [
+        { text: "Year", value: "year" },
+        { text: "Month", value: "month" },
+        { text: "Week", value: "week" },
+        { text: "Day", value: "day" }
+      	];
+    
+      	$scope.resultsOptionsList = [
+        { text: "Year", value: "year" },
+        { text: "Month", value: "month" },
+        { text: "Week", value: "week" },
+        { text: "Day", value: "day" }
+      	];
+    
+    // Default values
+      	$scope.data = {};
+      	$scope.data.grossOptions = 'year';
+      	$scope.data.resultOptions = 'month';
+    
+    
+    	$scope.updateGrossOptions = function(item) {
+    	  $window.localStorage.setItem( 'grossoption', item.value );
+    		console.log( 'Gross option: ' + item.value );
+    	}
+    
+    	$scope.updateResultOptions = function(item) {
+    	  $window.localStorage.setItem( 'resultoption', item.value );
+    		console.log( 'Results option: ' + item.value );
+    	}
 
 }
 $scope.changedColor=function(i){
