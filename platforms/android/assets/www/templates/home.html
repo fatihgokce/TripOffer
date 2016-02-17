@@ -1,21 +1,21 @@
 <ion-view title="Tripper" class="pane">
-    <ion-content overflow-scroll="true" padding="true" style="background: url(img/pHu0sC0vS0KmXvHMWAJn_images%2520(3).jpeg) no-repeat center;" scroll="false" class="has-header has-footer">
+    <ion-content overflow-scroll="true" padding="true"  class="has-header">
 <div class="card">
   <div class="item item-text-wrap">
-       <button class="button button-energized button-block  button-full" style="background-color:#8DC701" ui-sref="page2">Give a try</button>
+       <button class="button button-energized button-block  button-full" style="background-color:#2E8DB2" ui-sref="page2">Give a try</button>
     </div>
         </div>
        
 <div style=" width:100%;  
   display: table">
-<p style=" text-align:center; color:#fff;
+<p style=" text-align:center; color:#111;
   vertical-align: middle;
   display: table-cell;font-weight:bold;line-height:11px">Or</p>
 </div> 
 <div style=" width:100%;  
   display: table; 
  ">
-<p style=" text-align:center; color:#fff;
+<p style=" text-align:center; color:#111;
   vertical-align: middle;
   display: table-cell;font-weight:bold;line-height:11px">Choose what you want?</p>
 </div>
@@ -36,9 +36,12 @@
                 <span class="input-label">Fun</span>
                <select class="js-example-placeholder-single3" ng-model="selectedFun.id"  ng-options="item.id as item.text for item in dataFun" name="fun"></select>
             </label>
-    
+      <label class="item item-select">
+                <span class="input-label">Distance(m)</span>
+               <select class="js-example-placeholder-single4" ng-model="selectedDistance"  ng-options="item for item in dataDistance" name="distance"></select>
+            </label> 
         </form>
-        <button class="button button-energized button-block  icon-right ion-ios-search"   ng-click="find()" style="background-color:#8DC701">Find</button>
+        <button class="button button-energized button-block  icon-right ion-ios-search"   ng-click="find()" style="background-color:#2E8DB2">Find</button>
     </div>
         </div>
     </ion-content>

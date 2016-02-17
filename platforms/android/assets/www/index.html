@@ -66,7 +66,7 @@ body .view-container.tab-content {
   background-color: transparent;
 }
 .pane {
-    background-color: #00A652 !important;
+    background-color: #96CEE4 !important;
 }
 .card{margin: :10px !important;}
 .item-radio .item-content {
@@ -93,7 +93,7 @@ body .view-container.tab-content {
    }
 
 .button.button-positive.button-outline.active, .button.button-positive.button-outline.activated {
-        background-color: #4a87ee;
+        background-color: #2E8DB2;
         box-shadow: none;
         color: #fff; }
 
@@ -199,14 +199,22 @@ if (!Array.prototype.clear) {
         </ion-nav-buttons>    
         <ion-content class="padding">
 <div style=" width:100%;  
-  display: table;color:blue; 
+  display: table;color:#FFF; 
  " id="loading">
-<ion-spinner icon="spiral" style="text-align:center;vertical-align:middle;color:blue"></ion-spinner>
+<ion-spinner icon="spiral" style="text-align:center;vertical-align:middle;color:#FFF"></ion-spinner>
 </div>
       
           <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in lists" type="item-text-wrap">      
-        <h2>{{chat.name}}</h2>      
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in lists" type="item-text-wrap">
+ 
+   <span style="color:#795548">
+      {{chat.name}}
+    </span>
+      <span style="color:#0a9dc7">   {{chat.categoryName}}</span>
+   <span style="color:#33CD5F">
+      {{chat.location.distance}} m
+    </span>   
+      
       </ion-item>
     </ion-list>
         </ion-content>
@@ -254,60 +262,69 @@ module.config(function($stateProvider, $urlRouterProvider) {
  //$scope.selectedFood={};
     $scope.selectedHistoric={};
         $scope.selectedFun={};
- $scope.dataFood = [{ id:'4bf58dd8d48988d142941735', text: 'Asian Restaurant' }, 
-                          { id: '4bf58dd8d48988d111941735', text: 'Japanese Restaurant' }, 
-                          { id: '4bf58dd8d48988d113941735', text: 'Korean Restaurant' }, 
-                          { id: '4bf58dd8d48988d16a941735', text: 'Bakery' },
-                           { id: '4bf58dd8d48988d16b941735', text: 'Brazilian Restaurant' }, 
-                          { id: '4bf58dd8d48988d143941735', text: 'Breakfast Spot' }, 
-                           { id: '4bf58dd8d48988d128941735', text: 'Cafeteria' }, 
-                           { id: '4bf58dd8d48988d16d941735', text: 'Café' }, 
-                           { id: '4bf58dd8d48988d1e0931735', text: 'Coffee Shop' }, 
-                            { id: '4bf58dd8d48988d1d0941735', text: 'Dessert Shop' }, 
-                            { id: '4bf58dd8d48988d147941735', text: 'Diner' }, 
-                            { id: '4bf58dd8d48988d10b941735', text: 'Falafel Restaurant' }, 
-                            { id: '4bf58dd8d48988d16e941735', text: 'Fast Food Restaurant' }, 
-                            { id: '4edd64a0c7ddd24ca188df1a', text: 'Fish & Chips Shop' }, 
-                            { id: '4bf58dd8d48988d10c941735', text: 'French Restaurant' }, 
-                            { id: '55d25775498e9f6a0816a37a', text: 'Friterie' }, 
-                            { id: '4bf58dd8d48988d10e941735', text: 'Greek Restaurant' }, 
-                            { id: '52e81612bcbc57f1066b79ff', text: 'Halal Restaurant' }, 
-                            { id: '4bf58dd8d48988d10f941735', text: 'Indian Restaurant' }, 
-                            { id: '4bf58dd8d48988d110941735', text: 'Italian Restaurant' }, 
-                            { id: '4f04af1f2fb6e1c99f3db0bb', text: 'Turkish Restaurant' }, 
-                            { id: '4bf58dd8d48988d1d3941735', text: 'Vegetarian / Vegan Restaurant' }, 
-                            { id: '4d4b7105d754a06376d81259', text: 'Nightlife Spot' }, 
-                            { id: '4d4b7105d754a06377d81259', text: 'Outdoors & Recreation' }];  
+ $scope.dataFood = [
+        {id:'', text: 'None' },
+        { id:'4bf58dd8d48988d142941735', text: 'Asian Restaurant' }, 
+        { id: '4bf58dd8d48988d111941735', text: 'Japanese Restaurant' }, 
+        { id: '4bf58dd8d48988d113941735', text: 'Korean Restaurant' }, 
+        { id: '4bf58dd8d48988d16a941735', text: 'Bakery' },
+        { id: '4bf58dd8d48988d16b941735', text: 'Brazilian Restaurant' }, 
+        { id: '4bf58dd8d48988d143941735', text: 'Breakfast Spot' }, 
+        { id: '4bf58dd8d48988d128941735', text: 'Cafeteria' }, 
+        { id: '4bf58dd8d48988d16d941735', text: 'Café' }, 
+        { id: '4bf58dd8d48988d1e0931735', text: 'Coffee Shop' }, 
+        { id: '4bf58dd8d48988d1d0941735', text: 'Dessert Shop' }, 
+        { id: '4bf58dd8d48988d147941735', text: 'Diner' }, 
+        { id: '4bf58dd8d48988d10b941735', text: 'Falafel Restaurant' }, 
+        { id: '4bf58dd8d48988d16e941735', text: 'Fast Food Restaurant' }, 
+        { id: '4edd64a0c7ddd24ca188df1a', text: 'Fish & Chips Shop' }, 
+        { id: '4bf58dd8d48988d10c941735', text: 'French Restaurant' }, 
+        { id: '55d25775498e9f6a0816a37a', text: 'Friterie' }, 
+        { id: '4bf58dd8d48988d10e941735', text: 'Greek Restaurant' }, 
+        { id: '52e81612bcbc57f1066b79ff', text: 'Halal Restaurant' }, 
+        { id: '4bf58dd8d48988d10f941735', text: 'Indian Restaurant' }, 
+        { id: '4bf58dd8d48988d110941735', text: 'Italian Restaurant' }, 
+        { id: '4f04af1f2fb6e1c99f3db0bb', text: 'Turkish Restaurant' }, 
+        { id: '4bf58dd8d48988d1d3941735', text: 'Vegetarian / Vegan Restaurant' }, 
+        { id: '4d4b7105d754a06376d81259', text: 'Nightlife Spot' }, 
+        { id: '4d4b7105d754a06377d81259', text: 'Outdoors & Recreation' }
+ ];  
     
-$scope.dataHistoric = [{ id:'4bf58dd8d48988d18f941735', text: 'Art Museum' }, 
-                          { id: '4bf58dd8d48988d190941735', text: 'History Museum' }, 
-                          { id: '4bf58dd8d48988d191941735', text: 'Science Museum' }, 
-                          { id: '52e81612bcbc57f1066b7a22', text: 'Botanical Garden' },
-                           { id: '50aaa49e4b90af0d42d5de11', text: 'Castle' }, 
-                          { id: '52e81612bcbc57f1066b7a23', text: 'Forest' }, 
-                           { id: '4bf58dd8d48988d15a941735', text: 'Garden' }, 
-                           { id: '52e81612bcbc57f1066b7a21', text: 'National Park' }, 
-                           { id: '52e81612bcbc57f1066b7a14', text: 'Palace' }, 
-                            { id: '52e81612bcbc57f1066b7a29', text: 'Rafting' }, 
-                            { id: '52e81612bcbc57f1066b7a3e', text: 'Buddhist Temple' }, 
-                            { id: '4bf58dd8d48988d132941735', text: 'Church' }, 
-                            { id: '52e81612bcbc57f1066b7a3f', text: 'Hindu Temple' }, 
-                            { id: '52e81612bcbc57f1066b7a40', text: 'Monastery' }, 
-                            { id: '4bf58dd8d48988d138941735', text: 'Mosque' }, 
-                            { id: '4bf58dd8d48988d13a941735', text: 'Temple' }, 
-                            { id: '4deefb944765f83613cdba6e', text: 'Historic Site' }
+$scope.dataHistoric = [
+    {id:'', text: 'None' },     
+    { id:'4bf58dd8d48988d181941735', text: 'Museum' },                     
+    { id: '52e81612bcbc57f1066b7a22', text: 'Botanical Garden' },
+    { id: '50aaa49e4b90af0d42d5de11', text: 'Castle' }, 
+    { id: '52e81612bcbc57f1066b7a23', text: 'Forest' }, 
+    { id: '4bf58dd8d48988d15a941735', text: 'Garden' }, 
+    { id: '52e81612bcbc57f1066b7a21', text: 'National Park' }, 
+    { id: '52e81612bcbc57f1066b7a14', text: 'Palace' }, 
+    { id: '52e81612bcbc57f1066b7a29', text: 'Rafting' }, 
+    { id: '52e81612bcbc57f1066b7a3e', text: 'Buddhist Temple' }, 
+    { id: '4bf58dd8d48988d132941735', text: 'Church' }, 
+    { id: '52e81612bcbc57f1066b7a3f', text: 'Hindu Temple' }, 
+    { id: '52e81612bcbc57f1066b7a40', text: 'Monastery' }, 
+    { id: '4bf58dd8d48988d138941735', text: 'Mosque' }, 
+    { id: '4bf58dd8d48988d13a941735', text: 'Temple' }, 
+    { id: '4deefb944765f83613cdba6e', text: 'Historic Site' }
                            ];
-      $scope.dataFun = [{ id:'4fceea171983d5d06c3e9823', text: 'Aquarium' }, 
-                          { id: '52e81612bcbc57f1066b79e7', text: 'Circus' }, 
-                          { id: '4bf58dd8d48988d18e941735', text: 'Comedy Club' }, 
-                          { id: '52e81612bcbc57f1066b79ef', text: 'Country Dance Club' },
-                           { id: '4bf58dd8d48988d1e5931735', text: 'Music Venue' }, 
-                          { id: '4bf58dd8d48988d1fd941735', text: 'Mall' }                          
+      $scope.dataFun = [
+        {id:'', text: 'None' },
+        { id:'4bf58dd8d48988d17f941735', text: 'Movie Theater' },
+        { id:'4bf58dd8d48988d17b941735', text: 'Zoo' },   
+        { id:'4fceea171983d5d06c3e9823', text: 'Aquarium' }, 
+        { id: '52e81612bcbc57f1066b79e7', text: 'Circus' }, 
+        { id: '4bf58dd8d48988d18e941735', text: 'Comedy Club' }, 
+        { id: '52e81612bcbc57f1066b79ef', text: 'Country Dance Club' },
+        { id: '4bf58dd8d48988d1e5931735', text: 'Music Venue' }, 
+        { id: '4bf58dd8d48988d1fd941735', text: 'Mall' }                          
                            ];
+   $scope.dataDistance = [1500,3000,5000];
 $scope.init=function(){
-$scope.selectedFood = $scope.dataFood[0];
-$scope.selectedHistoric = $scope.dataHistoric[0];
-$scope.selectedFun = $scope.dataFun[0];   
+$scope.selectedFood = $scope.dataFood[1];
+$scope.selectedHistoric = $scope.dataHistoric[1];
+$scope.selectedFun = $scope.dataFun[1];   
+$scope.selectedDistance= $scope.dataDistance[0];   
 	$scope.grossOptionsList = [
         { text: "Year", value: "year" },
         { text: "Month", value: "month" },
@@ -348,7 +365,7 @@ $scope.find=function(){
     if(lists)
         lists.clear();
     location.href="#/3?food="+$(".js-example-placeholder-single").val().replace("string:","")+"&his="+$(".js-example-placeholder-single2").val().replace("string:","")
-    +"&fun="+$(".js-example-placeholder-single3").val().replace("string:","");
+    +"&fun="+$(".js-example-placeholder-single3").val().replace("string:","")+"&distance="+$scope.selectedDistance;
 }          
 
 })
@@ -365,8 +382,8 @@ $scope.find=function(){
            var his = getParam('his');
             var fun = getParam('fun');
            var food=  getParam('food');
-   
-            treePageService.getPathBy(food,his,fun,ltl).then(function (t) {
+           var dis=  getParam('distance');
+            treePageService.getPathBy(food,his,fun,ltl,dis).then(function (t) {
            //       var contentString = "<div>You are here</div>";
         //var compiled = $compile(contentString)($scope);
           //      $scope.createMarker(ll,contentString,"Here","You are here");
@@ -441,15 +458,15 @@ $scope.find=function(){
         var f= getParam("from");
         if(f=="3")
         {
-                 navigator.geolocation.getCurrentPosition(function(pos) {
-              markers.clear();
+            navigator.geolocation.getCurrentPosition(function(pos) {
+            markers.clear();
             var ll=new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-           map.setCenter(ll);
+            map.setCenter(ll);
             markers.push(ll);
-           var ltl=pos.coords.latitude+","+pos.coords.longitude;
-        var contentString = "<div>You are here</div>";
-        var compiled = $compile(contentString)($scope);
-                $scope.createMarker(ll,contentString,"Here","You are here");
+            var ltl=pos.coords.latitude+","+pos.coords.longitude;
+            var contentString = "<div>You are here</div>";
+            var compiled = $compile(contentString)($scope);
+            $scope.createMarker(ll,contentString,"Here","You are here");
             $scope.createMarkers(lists);
             //$scope.drawPaths();
        
@@ -498,9 +515,9 @@ $scope.find=function(){
                   var myLatlng = new google.maps.LatLng(p.location.lat,p.location.lng);
                 markers.push(myLatlng);
                   var contentString = "<div><table><tr><td>Name</td><td>:</td><td>{0}</td></tr>".with(p.name);
-            contentString+="<tr><td>Adress</td><td>:</td><td>{0}</td></tr>".with(p.location.address);
-            contentString+="</table></div>";
-        var compiled = $compile(contentString)($scope);
+                contentString+="<tr><td>Adress</td><td>:</td><td>{0}</td></tr>".with(p.location.address);
+                contentString+="</table></div>";
+                var compiled = $compile(contentString)($scope);
                 $scope.createMarker(myLatlng,contentString,(i+1).toString(),p.name);
                 
             }
