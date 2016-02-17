@@ -36,6 +36,7 @@
        <link href="css/ionicons.min.css" rel="stylesheet">
         <script src="js/ionic.bundle.min.js"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+  
      <script src="js/app.js"></script>
         <script src="directive/ionicSelectDirective.js"></script>
         <script src="js/jquery.min.js"></script>      
@@ -162,7 +163,6 @@ if (!Array.prototype.clear) {
     }
 
     </script>
-       
     </head>
     <body>
    
@@ -206,14 +206,24 @@ if (!Array.prototype.clear) {
       
           <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in lists" type="item-text-wrap">
- 
-   <span style="color:#795548">
+   <label class="checkbox">
+      
+       <div style="display:inline-block">
+              <input type="checkbox" id="{{chat.id}}" checked="checked" name="ckbVanue"> </div>  
+    <div style="display:inline-block;position: relative;top: -8px;">        
+ <div style="display:inline-block">   <span style="color:#795548">
       {{chat.name}}
-    </span>
-      <span style="color:#0a9dc7">   {{chat.categoryName}}</span>
+     </span></div>
+           <span style="color:#0a9dc7">   {{chat.categoryName}}</span>
    <span style="color:#33CD5F">
       {{chat.location.distance}} m
-    </span>   
+    </span>
+ <span class="map-icon map-icon-bicycle-store"></span>
+</div>           
+            </label>
+              
+
+   
       
       </ion-item>
     </ion-list>
@@ -224,7 +234,13 @@ if (!Array.prototype.clear) {
             var map ;
             var markers=[];
          var lists=[];
+          var mapLists=[];
 var ff;
+          var mapIcons={
+              "Historic":"map-icon map-icon-campground",
+              "Food":"map-icon-food",
+              "Fun":"map-icon-abseiling"
+          };
 function getParam(name)
         {  
             name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");  
@@ -365,13 +381,32 @@ $scope.find=function(){
     if(lists)
         lists.clear();
     location.href="#/3?food="+$(".js-example-placeholder-single").val().replace("string:","")+"&his="+$(".js-example-placeholder-single2").val().replace("string:","")
-    +"&fun="+$(".js-example-placeholder-single3").val().replace("string:","")+"&distance="+$scope.selectedDistance;
+    +"&fun="+$(".js-example-placeholder-single3").val().replace("string:","")+"&distance="+$(".js-example-placeholder-single4").val().replace("number:","");
 }          
 
 })
-.controller('Page3Ctrl', function($scope,treePageService) {
+.controller('Page3Ctrl', function($scope,treePageService,$ionicPopup) {
           $scope.showonMap=function(){
-            location.href="#/2?from=3";   
+            if($(".list input[type='checkbox']:checked").length==0){
+                 var alertPopup = $ionicPopup.alert({
+     title: 'Alert!',
+     template: 'Please select at least one of them'
+   });
+            }
+              else{
+                  mapLists.clear();
+          
+                 
+                     $(".list input[type='checkbox']:checked").each(function(){
+                        var ind= lists.map(function(x) {return x.id; }).indexOf($(this).attr("id"));
+                         mapLists.push(lists[ind]);
+                         //lists.splice(ind,1);
+                     })
+                  
+               // var tmp= JSON.stringify(lists);
+                  location.href="#/2?from=3";   
+              }
+            
           }
   function init(){
        $("#loading").css("display","block");
@@ -467,7 +502,7 @@ $scope.find=function(){
             var contentString = "<div>You are here</div>";
             var compiled = $compile(contentString)($scope);
             $scope.createMarker(ll,contentString,"Here","You are here");
-            $scope.createMarkers(lists);
+            $scope.createMarkers(mapLists);
             //$scope.drawPaths();
        
         }, function(error) {
@@ -529,6 +564,7 @@ $scope.find=function(){
                   map: map,
                   label:label,
                   title: name
+          
                 });
       
 
@@ -556,5 +592,6 @@ $scope.find=function(){
 -->
        
       <script src="js/service.js"></script>
+     
     </body>
 </html>
