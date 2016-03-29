@@ -1,48 +1,53 @@
-<ion-view title="Tripper" class="pane">
+<ion-view title="" class="pane">
     <ion-content overflow-scroll="true" padding="true"  class="has-header">
-<div class="card">
-  <div class="item item-text-wrap">
-       <button class="button button-energized button-block  button-full" style="background-color:#2E8DB2" ui-sref="page2">Give a try</button>
-    </div>
-        </div>
-       
-<div style=" width:100%;  
-  display: table">
-<p style=" text-align:center; color:#111;
-  vertical-align: middle;
-  display: table-cell;font-weight:bold;line-height:11px">Or</p>
-</div> 
-<div style=" width:100%;  
-  display: table; 
+<div style="
+  width:100%;
+  display: table;
+  margin-bottom: 40px;
  ">
-<p style=" text-align:center; color:#111;
+<p style="
+  text-align:center;
+  color:#111;
   vertical-align: middle;
-  display: table-cell;font-weight:bold;line-height:11px">Choose what you want?</p>
+  /* display: table-cell; */
+  /* font-weight:bold; */
+  /* line-height:11px; */
+  font-family: billabong;
+  color: #fff;
+  margin-bottom: 40px;
+  font-size: 70px;
+  margin-top: 20px;
+  ">Tripper</p>
 </div>
-<div class="card">
-  <div class="item item-text-wrap">
-        <form class="list">
-            <label class="item item-select">
-                <span class="input-label">Food</span>
-                
-                <select name="food" class="js-example-placeholder-single" ng-model="selectedFood.id"  ng-options="item.id as item.text for item in dataFood" >                  
+<div style="width:97%;margin:auto">
+<button class="button button-energized button-block  button-full" style="font-family: quicksand-Regular;background-color:transparent;border-color:#fff;border-width:1px;border-radius:30px" ui-sref="page2">Give a try</button>
+</div>
+<div id="main_div" style="width:97%;margin:auto;margin-top:25px">
+<div class="div_wrp">    
+<p class="main-label">Food</p>
+ <select name="food" class="js-example-placeholder-single" ng-model="selectedFood.id"  ng-options="item.id as item.text for item in dataFood" >                  
                 </select>
-            </label>
-            <label class="item item-select">
-                <span class="input-label">Historic</span>
-                <select class="js-example-placeholder-single2" ng-model="selectedHistoric.id"  ng-options="item.id as item.text for item in dataHistoric" name="historic"></select>              
-            </label>
-      <label class="item item-select">
-                <span class="input-label">Fun</span>
-               <select class="js-example-placeholder-single3" ng-model="selectedFun.id"  ng-options="item.id as item.text for item in dataFun" name="fun"></select>
-            </label>
-      <label class="item item-select">
-                <span class="input-label">Distance(m)</span>
-               <select class="js-example-placeholder-single4" ng-model="selectedDistance"  ng-options="item for item in dataDistance" name="distance"></select>
-            </label> 
-        </form>
-        <button class="button button-energized button-block  icon-right ion-ios-search"   ng-click="find()" style="background-color:#2E8DB2">Find</button>
-    </div>
+    
+<div class="divider"></div>
+</div>  
+<div class="div_wrp">    
+<p class="main-label">Historic</p>
+ <select class="js-example-placeholder-single2" ng-model="selectedHistoric.id"  ng-options="item.id as item.text for item in dataHistoric" name="historic"></select>      
+<div class="divider"></div>
+</div>
+<div class="div_wrp">    
+<p class="main-label">Fun</p>
+ <select class="js-example-placeholder-single3" ng-model="selectedFun.id"  ng-options="item.id as item.text for item in dataFun" name="fun"></select>    
+<div class="divider"></div>  
+</div>
+<div class="div_wrp">    
+<p class="main-label">Distance(m)</p>
+ <select class="js-example-placeholder-single4" ng-model="selectedDistance"  ng-options="item for item in dataDistance" name="distance"></select>    
+<div class="divider"></div> 
+ </div>    
+     
+        <button class="button button-energized button-block"   ng-click="find()" style="font-family: quicksand-Regular;background-color:#2E8DB2;border-width:1px;border-radius:30px">Find</button>
+ 
         </div>
     </ion-content>
 </ion-view>

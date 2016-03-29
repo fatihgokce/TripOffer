@@ -11,6 +11,14 @@ angular.module('ionicApp.services', [])
             var deferred = $q.defer();          
             $http.get('http://tripoffer.net/api/values?latlng='+latlng).success(deferred.resolve).error(deferred.reject);
             return deferred.promise;
+        },
+        getRoute:function(origin,dest,mode){
+            ///api/values?origin=-20.291825,57.448668&dest=-20.179724,57.613463&sensor=false&mode="DRIVING"
+            //walking 
+                 var deferred = $q.defer();          
+            $http.get('http://tripoffer.net/api/values?sensor=false&origin='+origin+"&dest="+dest+"&mode="+mode).success(deferred.resolve).error(deferred.reject);
+            return deferred.promise;
         }
+        
     };
 });

@@ -31,18 +31,64 @@
        <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
         <link rel="stylesheet" type="text/css" href="css/index.css?v=1.2">
-        <title>Hello World</title>
+        <title>Tripper</title>
         <link href="css/ionic.css" rel="stylesheet">
        <link href="css/ionicons.min.css" rel="stylesheet">
         <script src="js/ionic.bundle.min.js"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-  
+  <script src="js/markerwithlabel.js"></script>
      <script src="js/app.js"></script>
         <script src="directive/ionicSelectDirective.js"></script>
         <script src="js/jquery.min.js"></script>      
      
         <style>
-            #map {
+    @font-face {
+  font-family: 'arial';
+  src: url('fonts/arial.ttf'); /* IE9 Compat Modes */
+  src: url('fonts/arial.ttf') format('woff2'), /* Super Modern Browsers */
+       url('fonts/arial.ttf') format('woff'), /* Pretty Modern Browsers */
+       url('fonts/arial.ttf')  format('truetype') /* Safari, Android, iOS */
+       
+}
+ @font-face {
+  font-family: 'billabong';
+  src: url('fonts/Billabong.ttf'); /* IE9 Compat Modes */
+  src: url('fonts/Billabong.ttf') format('woff2'), /* Super Modern Browsers */
+       url('fonts/Billabong.ttf') format('woff'), /* Pretty Modern Browsers */
+       url('fonts/Billabong.ttf')  format('truetype') /* Safari, Android, iOS */
+       
+}
+ @font-face {
+  font-family: 'quicksand-Regular';
+  src: url('fonts/Quicksand-Regular.ttf'); /* IE9 Compat Modes */
+  src: url('fonts/Quicksand-Regular.ttf') format('woff2'), /* Super Modern Browsers */
+       url('fonts/Quicksand-Regular.ttf') format('woff'), /* Pretty Modern Browsers */
+       url('fonts/Quicksand-Regular.ttf')  format('truetype') /* Safari, Android, iOS */
+       
+}
+ @font-face {
+  font-family: 'sourceSansPro-Regular';
+  src: url('fonts/SourceSansPro-Regular.otf'); /* IE9 Compat Modes */
+  src: url('fonts/SourceSansPro-Regular.otf') format('woff2'), /* Super Modern Browsers */
+       url('fonts/SourceSansPro-Regular.otf') format('woff'), /* Pretty Modern Browsers */
+       url('fonts/SourceSansPro-Regular.otf')  format('truetype') /* Safari, Android, iOS */
+       
+}             
+            .main-label{
+                font-family: quicksand-Regular;
+    font-size: 18px;
+    color: #fff;
+            }            
+
+            #main_div select{
+                  width: 100%;
+    background-color: transparent;
+    border-color: transparent;
+       color: #2E8DB2;
+    font-family: quicksand-Regular;
+    font-size: 16px;
+            }
+            #map ,  #map2{
             width: 100%;
             height: 100%;
             }
@@ -60,14 +106,30 @@
    color:#ffffff;
 background-color: #FF6207 !important;
     }
+.divider{
+        background: url(img/devider.png) no-repeat;width:100%;
+      -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    height: 1px;
+            }            
 .background, .background .pane, .background .item, .background .item-complex .item-content {
     background-color: yellow !important;
 }
+            .div_wrp{
+                    padding: 10px;
+    margin: 10px 0 10px 0;
+            }            
 body .view-container.tab-content {
   background-color: transparent;
 }
 .pane {
     background-color: #96CEE4 !important;
+     background: url(img/bg-01.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 .card{margin: :10px !important;}
 .item-radio .item-content {
@@ -113,7 +175,60 @@ margin-bottom: 2px !important;
 td,div {
     color: #000;
 }
+             .labels {
+     color:cadetblue;
+   
+     font-family: "Lucida Grande", "Arial", sans-serif;
+     font-size: 8px;
+     font-weight: bold;
+     width: 80px;     
+     
+     white-space: nowrap;
+   }
+            
+#ul_route li{ padding: 3px;
+font-size: 20px;font-size: 17px;
+}
+            .div_wrp select{
+  -webkit-appearance: none; 
+
+  background: url(img/arrow.png) no-repeat right #BADA55;                
+            }
+.slider-wrapper {
+    margin: 50px 0 30px 30px;
+    position: relative;
+    width: 250px;
+}
+.toggle input:checked + .track {
+    background-color: #8577b5;
+    border-color: #8577b5;
+}
+
+.range.range - balanced input::-webkit - slider - thumb: before {
+    background: #8577b5;}
+.range.range-light input::-webkit-slider-thumb:before {
+    background: #ddd;}
+.range.range - stable input::-webkit - slider - thumb: before {
+    background: #b2b2b2;
+}
+.range.range - positive input::-webkit - slider - thumb: before {
+    background: #4a87ee; }
+.range.range-calm input::-webkit-slider-thumb:before {
+    background: #43cee6;
+}
+.range.range - assertive input::-webkit - slider - thumb: before {
+    background: #ef4e3a;
+}
+.range.range - energized input::-webkit - slider - thumb: before {
+    background: #f0b840;
+}
+.range.range - royal input::-webkit - slider - thumb: before {
+    background: #8a6de9; }
+.range.range-dark input::-webkit-slider-thumb:before {
+    background: #444;
+}
         </style>
+ 
          <script type="text/javascript" charset="utf-8">
 if (!String.prototype.with) {
     String.prototype.with = function () {
@@ -163,19 +278,23 @@ if (!Array.prototype.clear) {
     }
 
     </script>
+       
     </head>
     <body>
-   
+           
  <ion-nav-bar class="bar bar-header bar-stable nav-title-slide-ios7" align-title="center">
       <ion-nav-back-button class="button-icon ion-arrow-left-c">
       </ion-nav-back-button>
     </ion-nav-bar>
 
     <ion-nav-view class="slide-left-right"></ion-nav-view>
-
+  
     <script id="page2.html" type="text/ng-template">
       <!-- The title of the ion-view will be shown on the navbar -->
       <ion-view title="">
+     <ion-nav-buttons side="left">
+     
+</ion-nav-buttons>     
   <!--      <ion-nav-buttons side="left">
            <a ng-click="centerOnMe()" class="button button-icon ion-ios-location-outline">
                
@@ -194,48 +313,64 @@ if (!Array.prototype.clear) {
       <!-- The title of the ion-view will be shown on the navbar -->
       <ion-view title="">
            <ion-nav-buttons side="left">
-           <a ng-click="showonMap()" class="button button-icon ion-ios-location-outline">               
-               Show on Map</a>
-        </ion-nav-buttons>    
-        <ion-content class="padding">
+          
+        </ion-nav-buttons>   
+         
+        <ion-content class="padding">         
 <div style=" width:100%;  
   display: table;color:#FFF; 
  " id="loading">
 <ion-spinner icon="spiral" style="text-align:center;vertical-align:middle;color:#FFF"></ion-spinner>
 </div>
-      
-          <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in lists" type="item-text-wrap">
-   <label class="checkbox">
-      
-       <div style="display:inline-block">
-              <input type="checkbox" id="{{chat.id}}" checked="checked" name="ckbVanue"> </div>  
-    <div style="display:inline-block;position: relative;top: -8px;">        
- <div style="display:inline-block">   <span style="color:#795548">
+<div style="backgroun-color:transparent">
+<div ng-repeat="chat in lists">
+<div style="border-bottom: 1px solid #ccc;padding:5px">    
+<div style="float:left">
+   <div style="display:inline-block;position: relative;">        
+ <div style="">   <span style="color: #fff;font-family: quicksand-Regular;font-size: 16px;">
       {{chat.name}}
      </span></div>
-           <span style="color:#0a9dc7">   {{chat.categoryName}}</span>
-   <span style="color:#33CD5F">
+<div style="    padding: 5px 2px 2px 0px;">       
+           <span style="color:#0a9dc7">
+               <img src="img/{{chat.categoryName}}.png" width="24px" height="24px"/></span>               
+   <span style="color: #BFCAC2;
+    font-size: 13px;
+    position: relative;
+    top: -5px;font-family:quicksand-Regular;">
       {{chat.location.distance}} m
     </span>
+</div>    
  <span class="map-icon map-icon-bicycle-store"></span>
-</div>           
-            </label>
-              
-
-   
-      
-      </ion-item>
-    </ion-list>
+</div> 
+</div>
+<div style="float:right">
+ <label class="checkbox">
+     <div style="display:inline-block">
+              <input type="checkbox" id="{{chat.id}}" checked="checked" name="ckbVanue"> </div> 
+    </label>
+</div> 
+<div style="clear:both"></div>  
+</div>
+</div>
+<div style="clear:both"></div>      
+<div style="margin-top:30px">    
+  <button class="button button-energized button-block icon ion-ios-location-outline"  style="font-family: quicksand-Regular;background-color:transparent;border-width:1px;border-radius:30px;border: 1px solid #ccc;" ng-click="showonMap()">&nbsp;&nbsp;Show on Map</button>
+</div>
+  
+</div>      
         </ion-content>
       </ion-view>
     </script>
       <script>
             var map ;
+          var directionsDisplay;
             var markers=[];
+          var rmarker=[];
          var lists=[];
           var mapLists=[];
+          var currentLines;
 var ff;
+          var currentPos;
           var mapIcons={
               "Historic":"map-icon map-icon-campground",
               "Food":"map-icon-food",
@@ -252,6 +387,42 @@ function getParam(name)
             else    
                 return results[1];
         }
+        
+    function setRoute(ind){
+          if(directionsDisplay)
+            directionsDisplay.setMap(null);
+        var mode="walking";
+         directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+          var directionsService = new google.maps.DirectionsService;
+          directionsDisplay.setMap(map);
+     
+            directionsService.route({
+            origin: {lat: currentPos.lat(), lng: currentPos.lng()},  // Haight.
+            destination: {lat:mapLists[ind].location.lat, lng: mapLists[ind].location.lng},  // Ocean Beach.
+            // Note that Javascript allows us to access the constant
+            // using square brackets and a string value as its
+            // "property."
+            travelMode:google.maps.TravelMode["WALKING"] //google.maps.TravelMode.WALKING
+            }, function(response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+            } else {
+            window.alert('Directions request failed due to ' + status);
+            }
+            });
+        
+           
+    
+      }
+$(function(){
+    $(".back-button").click(function(){
+        console.log(location.href);
+        if(location.href.indexOf("#/1")>0){
+            $(".pane").css("background","url(img/bg-01.png) no-repeat center center fixed");
+  $(".pane").css("background-size","cover");
+        }
+    })
+})
 var module= angular.module('ionicApp', ['ionic','ionicApp.services']);
 module.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
@@ -270,8 +441,168 @@ module.config(function($stateProvider, $urlRouterProvider) {
     templateUrl: 'page3.html',
     controller : "Page3Ctrl"
   })
-  
+.state('fst', {
+                url : '/fst',
+                templateUrl : 'templates/menu.html',
+                abstract : true,
+                controller : 'menuCtrl'
+            })
+
+ .state('fst.list', {
+                url: '/list',
+                views: {
+                    'fst': {
+                        templateUrl: 'templates/list.html',
+                        controller : 'listCtrl'
+                    }
+                }
+            })
   $urlRouterProvider.otherwise("/1");
+})
+    .controller('menuCtrl', function($scope, $ionicSideMenuDelegate,treePageService,$ionicPopup,$compile,$ionicLoading) {
+        $scope.toggleLeft = function() {
+            $ionicSideMenuDelegate.toggleLeft();
+          }
+        $scope.$on("$ionicView.enter", function() {
+		 init();
+		 $scope.$digest();
+	 });
+    
+     function initialize() {
+        var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+        rmarker.clear();
+        var mapOptions = {
+          center: myLatlng,
+          zoom: 14,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map2"),
+            mapOptions);
+       
+        //Marker + infowindow + angularjs compiled ng-click
+        var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
+        var compiled = $compile(contentString)($scope);
+
+        var infowindow = new google.maps.InfoWindow({
+          content: compiled[0]
+        });
+
+        var marker = new google.maps.Marker({
+          position: myLatlng,
+          map: map,
+          title: 'Uluru (Ayers Rock)'
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.open(map,marker);
+        });
+google.maps.event.addListener(map, 'click', function(e) {// duh! :-( google map zoom on double click!
+   if (!$(e.target).is('#wrapper_grid *')) {
+                    $(".wrap_weather_box").remove();
+                }
+});
+        $scope.map = map;
+      //  var f= getParam("from");
+       // if(f=="3")
+    //    {
+            navigator.geolocation.getCurrentPosition(function(pos) {
+            markers.clear();
+            var ll=new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+            map.setCenter(ll);
+            markers.push(ll);
+            var ltl=pos.coords.latitude+","+pos.coords.longitude;
+            var contentString = "<div>You are here</div>";
+            var compiled = $compile(contentString)($scope);
+            $scope.createMarker(ll,contentString,"Here","You are here");
+            $scope.createMarkers(mapLists);
+            //$scope.drawPaths();
+       
+        }, function(error) {
+          alert('Unable to get location: ' + error.message);
+        },{maximumAge:600000, timeout:5000, enableHighAccuracy: true});
+  
+   // }
+    //    else{
+    //        $scope.centerOnMe();
+    //    }
+    }
+         
+          function init(){
+       $("#loading").css("display","block");
+       navigator.geolocation.getCurrentPosition(function(pos) {
+           //$scope.toggleLeft();
+            $ionicSideMenuDelegate.toggleLeft(true);
+           var ltl=pos.coords.latitude+","+pos.coords.longitude;
+       
+           var his = getParam('his');
+            var fun = getParam('fun');
+           var food=  getParam('food');
+           var dis=  getParam('distance');
+            treePageService.getPathBy(food,his,fun,ltl,dis).then(function (t) {
+   
+                $scope.lists=t.$values;
+                lists=t.$values;
+                $("#loading").css("display","none");
+                initialize();
+                
+              
+        });
+     
+        }, function(error) {
+          alert('Unable to get location: ' + error.message);
+        });
+  }
+          init();
+          $scope.lists=[];
+     $scope.createMarkers=function(paths){        
+      
+            for(var i=0;i<paths.length;i++){
+                var p=paths[i];
+                  var myLatlng = new google.maps.LatLng(p.location.lat,p.location.lng);
+                markers.push(myLatlng);
+                  var contentString = "<div><table><tr><td>Name</td><td>:</td><td>{0}</td></tr>".with(p.name);
+                contentString+="<tr><td>Adress</td><td>:</td><td>{0}</td></tr>".with(p.location.address);
+                contentString+="</table></div>";
+                var compiled = $compile(contentString)($scope);
+                $scope.createMarker(myLatlng,contentString,(i+1).toString(),p.name);
+                
+            }
+            
+        }
+        $scope.createMarker=function(latlng,html,label,name){
+      
+ var marker = new MarkerWithLabel({
+       position: latlng,
+       draggable: true,
+       raiseOnDrag: true,
+       map: map,
+       labelContent: name,
+       labelAnchor: new google.maps.Point(22, 0),
+       labelClass: "labels" // the CSS class for the label
+     });
+rmarker.push(marker);
+        var infowindow = new google.maps.InfoWindow();
+        $scope.bindInfoWindow(marker,infowindow,html);
+        }
+        $scope.bindInfoWindow=function(marker, infowindow, html) {
+    marker.addListener('click', function() {
+        infowindow.setContent(html);
+        infowindow.open(map, this);
+    });
+} 
+    })
+   .controller('NavController', function($scope, $ionicSideMenuDelegate) {
+      $scope.toggleLeft = function(e) {
+          e.preventDefault();
+        $ionicSideMenuDelegate.toggleLeft();
+      }
+      $scope.init=function(){       
+          $ionicSideMenuDelegate.toggleLeft();
+      }
+      $scope.init();
+    })
+.controller('listCtrl',function($scope){
+    
 })
 .controller('HomeCtrl', function($scope,$window) {
 
@@ -336,50 +667,20 @@ $scope.dataHistoric = [
         { id: '4bf58dd8d48988d1fd941735', text: 'Mall' }                          
                            ];
    $scope.dataDistance = [1500,3000,5000];
-$scope.init=function(){
+
 $scope.selectedFood = $scope.dataFood[1];
 $scope.selectedHistoric = $scope.dataHistoric[1];
 $scope.selectedFun = $scope.dataFun[1];   
 $scope.selectedDistance= $scope.dataDistance[0];   
-	$scope.grossOptionsList = [
-        { text: "Year", value: "year" },
-        { text: "Month", value: "month" },
-        { text: "Week", value: "week" },
-        { text: "Day", value: "day" }
-      	];
-    
-      	$scope.resultsOptionsList = [
-        { text: "Year", value: "year" },
-        { text: "Month", value: "month" },
-        { text: "Week", value: "week" },
-        { text: "Day", value: "day" }
-      	];
-    
-    // Default values
-      	$scope.data = {};
-      	$scope.data.grossOptions = 'year';
-      	$scope.data.resultOptions = 'month';
-    
-    
-    	$scope.updateGrossOptions = function(item) {
-    	  $window.localStorage.setItem( 'grossoption', item.value );
-    		console.log( 'Gross option: ' + item.value );
-    	}
-    
-    	$scope.updateResultOptions = function(item) {
-    	  $window.localStorage.setItem( 'resultoption', item.value );
-    		console.log( 'Results option: ' + item.value );
-    	}
-
+function initHome(){  
+$(".pane").css("background","url(img/bg-01.png) no-repeat center center fixed");
+  $(".pane").css("background-size","cover");
 }
-$scope.changedColor=function(i){
-    $scope.selectedFood=$scope.dataFood[i];
-   alert($scope.selectedFood.text ); 
-}
-$scope.init();
+initHome();
 $scope.find=function(){
     if(lists)
         lists.clear();
+    //#/fst/list
     location.href="#/3?food="+$(".js-example-placeholder-single").val().replace("string:","")+"&his="+$(".js-example-placeholder-single2").val().replace("string:","")
     +"&fun="+$(".js-example-placeholder-single3").val().replace("string:","")+"&distance="+$(".js-example-placeholder-single4").val().replace("number:","");
 }          
@@ -387,7 +688,7 @@ $scope.find=function(){
 })
 .controller('Page3Ctrl', function($scope,treePageService,$ionicPopup) {
           $scope.showonMap=function(){
-            if($(".list input[type='checkbox']:checked").length==0){
+            if($("input[type='checkbox']:checked").length==0){
                  var alertPopup = $ionicPopup.alert({
      title: 'Alert!',
      template: 'Please select at least one of them'
@@ -397,7 +698,7 @@ $scope.find=function(){
                   mapLists.clear();
           
                  
-                     $(".list input[type='checkbox']:checked").each(function(){
+                     $("input[type='checkbox']:checked").each(function(){
                         var ind= lists.map(function(x) {return x.id; }).indexOf($(this).attr("id"));
                          mapLists.push(lists[ind]);
                          //lists.splice(ind,1);
@@ -409,6 +710,8 @@ $scope.find=function(){
             
           }
   function init(){
+    $(".pane").css("background","url(img/bg-02.png) no-repeat center center fixed");
+  $(".pane").css("background-size","cover");
        $("#loading").css("display","block");
        navigator.geolocation.getCurrentPosition(function(pos) {
            
@@ -443,6 +746,7 @@ $scope.find=function(){
         navigator.geolocation.getCurrentPosition(function(pos) {
               markers.clear();
             var ll=new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+            currentPos=ll;
            map.setCenter(ll);
             markers.push(ll);
            var ltl=pos.coords.latitude+","+pos.coords.longitude;
@@ -462,7 +766,7 @@ $scope.find=function(){
       }
     function initialize() {
         var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
-
+        rmarker.clear();
         var mapOptions = {
           center: myLatlng,
           zoom: 14,
@@ -498,6 +802,7 @@ $scope.find=function(){
             var ll=new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
             map.setCenter(ll);
             markers.push(ll);
+            currentPos=ll;
             var ltl=pos.coords.latitude+","+pos.coords.longitude;
             var contentString = "<div>You are here</div>";
             var compiled = $compile(contentString)($scope);
@@ -507,7 +812,7 @@ $scope.find=function(){
        
         }, function(error) {
           alert('Unable to get location: ' + error.message);
-        });
+        },{maximumAge:600000, timeout:5000, enableHighAccuracy: true});
   
     }
         else{
@@ -524,7 +829,7 @@ $scope.find=function(){
           }
       }
       $scope.createPath=function(source,destination){
-          var directionsDisplay = new google.maps.DirectionsRenderer;
+          var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
           var directionsService = new google.maps.DirectionsService;
           directionsDisplay.setMap(map);
 
@@ -543,6 +848,18 @@ $scope.find=function(){
             }
             });
       }
+      $scope.setRoute=function(ind){
+          alert(ind);
+               treePageService.getPaths(ltl).then(function (t) {
+               // lists=t;
+                  var contentString = "<div>You are here</div>";
+        var compiled = $compile(contentString)($scope);
+                $scope.createMarker(ll,contentString,"Here","You are here");
+            $scope.createMarkers(t.$values);
+            //$scope.drawPaths();
+              
+        });
+      }
         $scope.createMarkers=function(paths){        
       
             for(var i=0;i<paths.length;i++){
@@ -551,23 +868,53 @@ $scope.find=function(){
                 markers.push(myLatlng);
                   var contentString = "<div><table><tr><td>Name</td><td>:</td><td>{0}</td></tr>".with(p.name);
                 contentString+="<tr><td>Adress</td><td>:</td><td>{0}</td></tr>".with(p.location.address);
-                contentString+="</table></div>";
+                contentString+="</table><button class='button button-stable' onclick='setRoute({0})'>Direction</button></div>".with(i);
                 var compiled = $compile(contentString)($scope);
-                $scope.createMarker(myLatlng,contentString,(i+1).toString(),p.name);
+                $scope.createMarker(myLatlng,contentString,(i+1).toString(),p.name,p);
                 
             }
             
         }
-        $scope.createMarker=function(latlng,html,label,name){
-             var marker = new google.maps.Marker({
-                  position: latlng,
-                  map: map,
-                  label:label,
-                  title: name
-          
-                });
-      
+        $scope.createMarker=function(latlng,html,label,name,p){
+   //      var marker = new google.maps.Marker({
+//              position: latlng,
+    //          map: map,
+//              label:label,
+            //  title: name,
+    //          labelContent: "$425K",
+   //labelAnchor: new google.maps.Point(22, 0),
+//   labelClass: "labels", // the CSS class for the label
+   //labelStyle: {opacity: 0.75}
 
+     //       });
+      var opt={};
+            if(p){
+            opt={
+       position: latlng,
+       draggable: true,
+       raiseOnDrag: true,
+       map: map,
+       labelContent: name,
+       labelAnchor: new google.maps.Point(22, 0),
+       labelClass: "labels", // the CSS class for the label
+      icon:"img/"+p.categoryName+".png"
+     };
+            }else
+        {
+        opt= {
+       position: latlng,
+       draggable: true,
+       raiseOnDrag: true,
+       map: map,
+       labelContent: name,
+       labelAnchor: new google.maps.Point(22, 0),
+       labelClass: "labels" // the CSS class for the label
+     
+     };
+     }    
+            
+ var marker = new MarkerWithLabel(opt);
+rmarker.push(marker);
         var infowindow = new google.maps.InfoWindow();
         $scope.bindInfoWindow(marker,infowindow,html);
         }
@@ -592,6 +939,19 @@ $scope.find=function(){
 -->
        
       <script src="js/service.js"></script>
-     
+        
+ <script src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script>
+$(function() {
+  $(".range").slider({
+    min: 0,
+    value: 50,
+    max: 100,
+    orientation: "horizontal",
+    range: "min",
+    animate: true
+  });
+});
+</script>     
     </body>
 </html>
