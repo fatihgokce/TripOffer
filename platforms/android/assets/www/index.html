@@ -176,10 +176,10 @@ td,div {
     color: #000;
 }
              .labels {
-     color:cadetblue;
+     color:black;
    
      font-family: "Lucida Grande", "Arial", sans-serif;
-     font-size: 8px;
+     font-size: 10px;
      font-weight: bold;
      width: 80px;     
      
@@ -198,34 +198,6 @@ font-size: 20px;font-size: 17px;
     margin: 50px 0 30px 30px;
     position: relative;
     width: 250px;
-}
-.toggle input:checked + .track {
-    background-color: #8577b5;
-    border-color: #8577b5;
-}
-
-.range.range - balanced input::-webkit - slider - thumb: before {
-    background: #8577b5;}
-.range.range-light input::-webkit-slider-thumb:before {
-    background: #ddd;}
-.range.range - stable input::-webkit - slider - thumb: before {
-    background: #b2b2b2;
-}
-.range.range - positive input::-webkit - slider - thumb: before {
-    background: #4a87ee; }
-.range.range-calm input::-webkit-slider-thumb:before {
-    background: #43cee6;
-}
-.range.range - assertive input::-webkit - slider - thumb: before {
-    background: #ef4e3a;
-}
-.range.range - energized input::-webkit - slider - thumb: before {
-    background: #f0b840;
-}
-.range.range - royal input::-webkit - slider - thumb: before {
-    background: #8a6de9; }
-.range.range-dark input::-webkit-slider-thumb:before {
-    background: #444;
 }
         </style>
  
@@ -371,6 +343,7 @@ if (!Array.prototype.clear) {
           var currentLines;
 var ff;
           var currentPos;
+          var myInter;
           var mapIcons={
               "Historic":"map-icon map-icon-campground",
               "Food":"map-icon-food",
@@ -391,22 +364,47 @@ function getParam(name)
     function setRoute(ind){
           if(directionsDisplay)
             directionsDisplay.setMap(null);
-        var mode="walking";
+      
          directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
           var directionsService = new google.maps.DirectionsService;
           directionsDisplay.setMap(map);
-     
+       var mode='DRIVING';//'WALKING';
             directionsService.route({
             origin: {lat: currentPos.lat(), lng: currentPos.lng()},  // Haight.
             destination: {lat:mapLists[ind].location.lat, lng: mapLists[ind].location.lng},  // Ocean Beach.
             // Note that Javascript allows us to access the constant
             // using square brackets and a string value as its
             // "property."
-            travelMode:google.maps.TravelMode["WALKING"] //google.maps.TravelMode.WALKING
+            travelMode:google.maps.TravelMode[mode] //google.maps.TravelMode.WALKING
             }, function(response, status) {
             if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
-            } else {
+                myInter = setInterval(function(){ 
+                     navigator.geolocation.getCurrentPosition(function(pos) {
+            
+            var ll=new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+            currentPos=ll;
+          
+        var cc= rmarker.map(function(km){if( km.labelContent=="You are here")return km})[0];
+        if(cc){
+            if(cc.position.lat()!=ll.lat() || cc.position.lng()!=ll.lng()){
+            if(pos.coords.speed>0)
+            {
+              cc.setPosition(currentPos);
+              map.setCenter(ll);
+            }
+            }
+        }                            
+            //$scope.drawPaths();
+              
+        });
+       
+        }, function(error) {
+          alert('Unable to get location: ' + error.message);
+     
+               }, 1000);
+           }         
+            else {
             window.alert('Directions request failed due to ' + status);
             }
             });
@@ -509,7 +507,7 @@ google.maps.event.addListener(map, 'click', function(e) {// duh! :-( google map 
             markers.clear();
             var ll=new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
             map.setCenter(ll);
-            markers.push(ll);
+           
             var ltl=pos.coords.latitude+","+pos.coords.longitude;
             var contentString = "<div>You are here</div>";
             var compiled = $compile(contentString)($scope);
@@ -756,6 +754,7 @@ $scope.find=function(){
         var compiled = $compile(contentString)($scope);
                 $scope.createMarker(ll,contentString,"Here","You are here");
             $scope.createMarkers(t.$values);
+                mapLists=t.$values;
             //$scope.drawPaths();
               
         });
@@ -891,7 +890,7 @@ $scope.find=function(){
             if(p){
             opt={
        position: latlng,
-       draggable: true,
+       draggable: false,
        raiseOnDrag: true,
        map: map,
        labelContent: name,
@@ -903,7 +902,7 @@ $scope.find=function(){
         {
         opt= {
        position: latlng,
-       draggable: true,
+       draggable: false,
        raiseOnDrag: true,
        map: map,
        labelContent: name,
