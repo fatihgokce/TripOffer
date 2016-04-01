@@ -8,6 +8,12 @@
     <feature name="Geolocation">
         <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
     </feature>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
     <allow-intent href="market:*" />
     <name>HelloCordova</name>
     <description>
