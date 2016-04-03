@@ -34,7 +34,9 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function () {
+       // alert(device.uuid);
         app.deviceId = device.uuid;
+       // alert(device.uuid);
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
