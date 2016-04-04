@@ -246,11 +246,14 @@
         
         .mynavbar {
             height: 36px !important;
+            background-color: transparent !important;
+            border-color: transparent !important;
         }
         
         .bb {
             position: relative;
             top: -5px;
+            color: #fff !important;
         }
         
         .active-direct {
@@ -319,7 +322,7 @@
 <body>
 
     <ion-nav-bar class="bar bar-stable mynavbar" align-title="center">
-        <ion-nav-back-button class="button-icon ion-arrow-left-c bb">
+        <ion-nav-back-button class="button-icon ion-ios-arrow-back bb">
         </ion-nav-back-button>
     </ion-nav-bar>
 
@@ -358,40 +361,51 @@
             " id="loading">
                     <ion-spinner icon="spiral" style="text-align:center;vertical-align:middle;color:#FFF"></ion-spinner>
                 </div>
-                <div style="backgroun-color:transparent">
-                    <div ng-repeat="chat in lists">
-                        <div style="border-bottom: 1px solid #ccc;padding:5px">
-                            <div style="float:left">
-                                <div style="display:inline-block;position: relative;">
-                                    <div style=""> <span style="color: #fff;font-family: quicksand-Regular;font-size: 16px;">
+
+                <div ng-repeat="chat in lists">
+                    <div style="border-bottom: 1px solid #ccc;padding:5px">
+                        <div style="float:left">
+                            <div style="display:inline-block;position: relative;">
+                                <div style=""> <span style="color: #fff;font-family: quicksand-Regular;font-size: 16px;">
             {{chat.name}}
             </span></div>
-                                    <div style="    padding: 5px 2px 2px 0px;">
-                                        <span style="color:#0a9dc7">
+                                <div style="    padding: 5px 2px 2px 0px;">
+                                    <span style="color:#0a9dc7">
             <img src="img/{{chat.categoryName}}.png" width="24px" height="24px"/></span>
-                                        <span style="color: #BFCAC2;
+                                    <span style="color: #BFCAC2;
             font-size: 13px;
             position: relative;
             top: -5px;font-family:quicksand-Regular;">
             {{chat.location.distance}} m
             </span>
-                                    </div>
-                                    <span class="map-icon map-icon-bicycle-store"></span>
                                 </div>
+                                <span class="map-icon map-icon-bicycle-store"></span>
                             </div>
-                            <div style="float:right">
-                                <label class="checkbox">
-                                    <div style="display:inline-block">
-                                        <input type="checkbox" id="{{chat.id}}" checked="checked" name="ckbVanue"> </div>
-                                </label>
-                            </div>
-                            <div style="clear:both"></div>
                         </div>
+                        <div style="float:right">
+                            <label class="checkbox">
+                                <div style="display:inline-block">
+                                    <input type="checkbox" id="{{chat.id}}" checked="checked" name="ckbVanue"> </div>
+                            </label>
+                        </div>
+                        <div style="clear:both"></div>
                     </div>
-                    <div style="clear:both"></div>
-                    <div style="margin-top:30px">
-                        <button class="button button-energized button-block icon ion-ios-location-outline" style="font-family: quicksand-Regular;background-color:transparent;border-width:1px;border-radius:30px;border: 1px solid #ccc;" ng-click="showonMap()">&nbsp;&nbsp;Show on Map</button>
-                    </div>
+                </div>
+                <div style="backgroun-color:transparent">
+                    <p ng-if="lists.length == 0" class="" style="
+    text-align: center;
+    color: #fff;
+    font-family: arial;
+    width: 100%;
+    vertical-align: middle;
+">
+                        There is no place near to you please widen your distance .
+                    </p>
+                </div>
+                <div style="clear:both"></div>
+                <div style="margin-top:30px;margin-bottom:10px">
+                    <button class="button button-energized button-block icon ion-ios-location-outline" style="font-family: quicksand-Regular;background-color:transparent;border-width:1px;border-radius:30px;border: 1px solid #ccc;" ng-click="showonMap()">&nbsp;&nbsp;Show on Map</button>
+                </div>
 
                 </div>
             </ion-content>
@@ -465,7 +479,7 @@
                             currentPos = ll;
 
                             var cc = rmarker.map(function (km) {
-                                if (km.labelContent == "You are here") return km
+                                if (km.name == "You are here") return km
                             })[0];
                             if (cc) {
                                 if (cc.position.lat() != ll.lat() || cc.position.lng() != ll.lng()) {
@@ -505,7 +519,7 @@
             $ionicPlatform.ready(function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
-                $ionicPlatform.Platform.fullScreen();
+
 
                 document.addEventListener("resume", function () {
 
@@ -569,7 +583,7 @@
                     rmarker.clear();
                     var mapOptions = {
                         center: myLatlng,
-                        zoom: 14,
+                        zoom: 13,
                         mapTypeId: google.maps.MapTypeId.ROADMAP
                     };
                     map = new google.maps.Map(document.getElementById("map2"),
@@ -661,7 +675,7 @@
                         var myLatlng = new google.maps.LatLng(p.location.lat, p.location.lng);
                         markers.push(myLatlng);
                         var contentString = "<div><table><tr><td>Name</td><td>:</td><td>{0}</td></tr>".with(p.name);
-                        contentString += "<tr><td>Adress</td><td>:</td><td>{0}</td></tr>".with(p.location.address);
+                        contentString += "<tr><td>Adress</td><td>:</td><td>{0}</td></tr>".with(p.location.address == null ? "" : p.location.address);
                         contentString += "</table></div>";
                         var compiled = $compile(contentString)($scope);
                         $scope.createMarker(myLatlng, contentString, (i + 1).toString(), p.name);
@@ -676,7 +690,7 @@
                         draggable: true,
                         raiseOnDrag: true,
                         map: map,
-                        labelContent: name,
+                        name: name,
                         labelAnchor: new google.maps.Point(22, 0),
                         labelClass: "labels" // the CSS class for the label
                     });
@@ -965,6 +979,7 @@
                     $(".pane").css("background", "url(img/bg-02.png) no-repeat center center fixed");
                     $(".pane").css("background-size", "cover");
                     $("#loading").css("display", "block");
+                    $(".default-title").text("");
                     navigator.geolocation.getCurrentPosition(function (pos) {
 
                         var ltl = pos.coords.latitude + "," + pos.coords.longitude;
@@ -1019,11 +1034,12 @@
                 }
 
                 function initialize() {
+                    $(".default-title").text("");
                     var myLatlng = new google.maps.LatLng(43.07493, -89.381388);
                     rmarker.clear();
                     var mapOptions = {
                         center: myLatlng,
-                        zoom: 14,
+                        zoom: 13,
                         mapTypeId: google.maps.MapTypeId.ROADMAP
                     };
                     map = new google.maps.Map(document.getElementById("map"),
@@ -1126,12 +1142,12 @@
                         var p = paths[i];
                         var myLatlng = new google.maps.LatLng(p.location.lat, p.location.lng);
                         markers.push(myLatlng);
-                        var contentString = "<div style='width:240px;height:150px'><p class='inf-name'>{0}</p>".with(p.name);
-                        contentString += "<p class='inf-name'>{0}</p>".with(p.location.address);
+                        var contentString = "<div style='width:205px;height:132px'><p class='inf-name'>{0}</p>".with(p.name);
+                        contentString += "<p class='inf-name'>{0}</p>".with(p.location.address == null ? "" : p.location.address);
                         contentString += "<div  style='margin:10px 0 10px 0'><p style='color: #6F6F6F;font-size: 15px;font-family:quicksand-Regular'>Which one prefer:</p></div>"
                         contentString += "<div><div style='display:inline-block;'><span mode='DRIVING' onclick='setActive(this)' style='font-size:28px;' class='ion-model-s i-dircect active-direct'></span></div>";
                         contentString += "<div style='display:inline-block;margin-left:25px'><span mode='WALKING' onclick='setActive(this)' style='font-size:28px;color:#ccc' class='ion-android-walk i-dircect'></span></div>";
-                        contentString += "<div style='display:inline-block;margin-left:25px'><button style='height:20px;background-color:#2e8db2;color:#fff;border-radius: 40px;position: relative;top: -15px;font-size: 13px !important;' class='button button-stable' onclick='setRoute({0})'>Get Direction</button></div></div>".with(i);
+                        contentString += "<div style='display:inline-block;margin-left:25px'><button style='background-color:#2e8db2;color:#fff;border-radius: 15px;position: relative;top: -15px;font-size: 13px !important;' class='button button-small button-stable' onclick='setRoute({0})'>Get Direction</button></div></div>".with(i);
                         var compiled = $compile(contentString)($scope);
                         $scope.createMarker(myLatlng, contentString, (i + 1).toString(), p.name, p);
 
@@ -1157,7 +1173,7 @@
                             draggable: false,
                             raiseOnDrag: true,
                             map: map,
-                            labelContent: name,
+                            name: name,
                             labelAnchor: new google.maps.Point(22, 0),
                             labelClass: "labels", // the CSS class for the label
                             icon: "img/" + p.categoryName + ".png"
@@ -1168,7 +1184,7 @@
                             draggable: false,
                             raiseOnDrag: true,
                             map: map,
-                            labelContent: name,
+                            name: name,
                             labelAnchor: new google.maps.Point(22, 0),
                             labelClass: "labels" // the CSS class for the label
 

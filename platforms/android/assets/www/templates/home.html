@@ -1,11 +1,11 @@
 <ion-view title="" class="pane">
-    <ion-content overflow-scroll="true" padding="true"  class="has-header">
-<div style="
+    <ion-content overflow-scroll="true" padding="true" class="has-header" style="overflow:auto">
+        <div style="
   width:100%;
   display: table;
-  margin-bottom: 40px;
+  margin-bottom: 30px !important;
  ">
-<p style="
+            <p style="
   text-align:center;
   color:#111;
   vertical-align: middle;
@@ -18,36 +18,36 @@
   font-size: 70px;
   margin-top: 20px;
   ">Tripper</p>
-</div>
-<div style="width:97%;margin:auto">
-<button class="button button-energized button-block  button-full" style="font-family: quicksand-Regular;background-color:transparent;border-color:#fff;border-width:1px;border-radius:30px" ui-sref="page2">Give a try</button>
-</div>
-<div id="main_div" style="width:97%;margin:auto;margin-top:25px">
-<div class="div_wrp">    
-<p class="main-label">Food</p>
- <select name="food" class="js-example-placeholder-single" ng-model="selectedFood.id"  ng-options="item.id as item.text for item in dataFood" >                  
+        </div>
+        <div style="width:97%;margin:auto">
+            <button class="button button-energized button-block  button-full" style="font-family: quicksand-Regular;background-color:transparent;border-color:#fff;border-width:1px;border-radius:30px" ui-sref="page2">Give a try</button>
+        </div>
+        <div id="main_div" style="width:97%;margin:auto;margin-top:25px">
+            <div class="div_wrp">
+                <p class="main-label">Food</p>
+                <select name="food" class="js-example-placeholder-single" ng-model="selectedFood.id" ng-options="item.id as item.text for item in dataFood">
                 </select>
-    
-<div class="divider"></div>
-</div>  
-<div class="div_wrp">    
-<p class="main-label">Historic</p>
- <select class="js-example-placeholder-single2" ng-model="selectedHistoric.id"  ng-options="item.id as item.text for item in dataHistoric" name="historic"></select>      
-<div class="divider"></div>
-</div>
-<div class="div_wrp">    
-<p class="main-label">Fun</p>
- <select class="js-example-placeholder-single3" ng-model="selectedFun.id"  ng-options="item.id as item.text for item in dataFun" name="fun"></select>    
-<div class="divider"></div>  
-</div>
-<div class="div_wrp">    
-<p class="main-label">Distance(m)</p>
- <select class="js-example-placeholder-single4" ng-model="selectedDistance"  ng-options="item for item in dataDistance" name="distance"></select>    
-<div class="divider"></div> 
- </div>    
-     
-        <button class="button button-energized button-block"   ng-click="find()" style="font-family: quicksand-Regular;background-color:#2E8DB2;border-width:1px;border-radius:30px">Find</button>
- 
+
+                <div class="divider"></div>
+            </div>
+            <div class="div_wrp">
+                <p class="main-label">Historic</p>
+                <select class="js-example-placeholder-single2" ng-model="selectedHistoric.id" ng-options="item.id as item.text for item in dataHistoric" name="historic"></select>
+                <div class="divider"></div>
+            </div>
+            <div class="div_wrp">
+                <p class="main-label">Fun</p>
+                <select class="js-example-placeholder-single3" ng-model="selectedFun.id" ng-options="item.id as item.text for item in dataFun" name="fun"></select>
+                <div class="divider"></div>
+            </div>
+            <div class="div_wrp">
+                <p class="main-label">Distance(m)</p>
+                <select class="js-example-placeholder-single4" ng-model="selectedDistance" ng-options="item for item in dataDistance" name="distance"></select>
+                <div class="divider"></div>
+            </div>
+
+            <button class="button button-energized button-block" ng-click="find()" style="font-family: quicksand-Regular;background-color:#2E8DB2;border-width:1px;border-radius:30px;margin-top:30px !important">Find</button>
+
         </div>
     </ion-content>
 </ion-view>
