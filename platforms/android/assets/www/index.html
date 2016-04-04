@@ -248,6 +248,7 @@
             height: 36px !important;
             background-color: transparent !important;
             border-color: transparent !important;
+            background-image: none !important;
         }
         
         .bb {
@@ -361,7 +362,17 @@
             " id="loading">
                     <ion-spinner icon="spiral" style="text-align:center;vertical-align:middle;color:#FFF"></ion-spinner>
                 </div>
-
+                <div id="dvMsj" style="backgroun-color:transparent;display:none">
+                    <p ng-show="lists.length == 0" class="" style="
+    text-align: center;
+    color: #fff;
+    font-family: arial;
+    width: 100%;
+    vertical-align: middle;
+">
+                        There is no place near to you please widen your distance .
+                    </p>
+                </div>
                 <div ng-repeat="chat in lists">
                     <div style="border-bottom: 1px solid #ccc;padding:5px">
                         <div style="float:left">
@@ -391,20 +402,10 @@
                         <div style="clear:both"></div>
                     </div>
                 </div>
-                <div style="backgroun-color:transparent">
-                    <p ng-if="lists.length == 0" class="" style="
-    text-align: center;
-    color: #fff;
-    font-family: arial;
-    width: 100%;
-    vertical-align: middle;
-">
-                        There is no place near to you please widen your distance .
-                    </p>
-                </div>
+
                 <div style="clear:both"></div>
                 <div style="margin-top:30px;margin-bottom:10px">
-                    <button class="button button-energized button-block icon ion-ios-location-outline" style="font-family: quicksand-Regular;background-color:transparent;border-width:1px;border-radius:30px;border: 1px solid #ccc;" ng-click="showonMap()">&nbsp;&nbsp;Show on Map</button>
+                    <button id="btnShow" class="button button-energized button-block icon ion-ios-location-outline" style="font-family: quicksand-Regular;background-color:transparent;border-width:1px;border-radius:30px;border: 1px solid #ccc;" ng-click="showonMap()">&nbsp;&nbsp;Show on Map</button>
                 </div>
 
                 </div>
@@ -417,7 +418,8 @@
      <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
         <script src="js/index.js"></script>
      -->
-
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script src="js/index.js"></script>
     <script>
         var map;
         var directionsDisplay;
@@ -505,9 +507,15 @@
 
 
         }
+        function changeBack(){
+           if (location.href.indexOf("#/1") > 0) {
+                $(".pane").css("background", "url(img/bg-01.png) no-repeat center center fixed");
+                $(".pane").css("background-size", "cover");
+          }
+        }
         $(function () {
             $(".back-button").click(function () {
-                console.log(location.href);
+                
                 if (location.href.indexOf("#/1") > 0) {
                     $(".pane").css("background", "url(img/bg-01.png) no-repeat center center fixed");
                     $(".pane").css("background-size", "cover");
@@ -729,37 +737,29 @@
                         text: 'None'
                                                                  },
                     {
-                        id: '4bf58dd8d48988d142941735',
-                        text: 'Asian Restaurant'
-                                                                 },
-                    {
-                        id: '4bf58dd8d48988d111941735',
-                        text: 'Japanese Restaurant'
-                                                                 },
-                    {
-                        id: '4bf58dd8d48988d113941735',
-                        text: 'Korean Restaurant'
-                                                                 },
-                    {
-                        id: '4bf58dd8d48988d16a941735',
-                        text: 'Bakery'
-                                                                 },
-                    {
-                        id: '4bf58dd8d48988d16b941735',
-                        text: 'Brazilian Restaurant'
-                                                                 },
-                    {
-                        id: '4bf58dd8d48988d143941735',
-                        text: 'Breakfast Spot'
+                        id: '4bf58dd8d48988d16d941735',
+                        text: 'Café'
                                                                  },
                     {
                         id: '4bf58dd8d48988d128941735',
                         text: 'Cafeteria'
                                                                  },
+                    
                     {
-                        id: '4bf58dd8d48988d16d941735',
-                        text: 'Café'
+                        id: '4bf58dd8d48988d147941735',
+                        text: 'Diner'
                                                                  },
+                    
+                    {
+                        id: '4bf58dd8d48988d16a941735',
+                        text: 'Bakery'
+                                                                 },
+                 
+                    {
+                        id: '4bf58dd8d48988d143941735',
+                        text: 'Breakfast Spot'
+                                                                 },
+                    
                     {
                         id: '4bf58dd8d48988d1e0931735',
                         text: 'Coffee Shop'
@@ -768,10 +768,7 @@
                         id: '4bf58dd8d48988d1d0941735',
                         text: 'Dessert Shop'
                                                                  },
-                    {
-                        id: '4bf58dd8d48988d147941735',
-                        text: 'Diner'
-                                                                 },
+                    
                     {
                         id: '4bf58dd8d48988d10b941735',
                         text: 'Falafel Restaurant'
@@ -819,6 +816,22 @@
                     {
                         id: '4d4b7105d754a06376d81259',
                         text: 'Nightlife Spot'
+                                                                 },
+                    {
+                        id: '4bf58dd8d48988d142941735',
+                        text: 'Asian Restaurant'
+                                                                 },
+                    {
+                        id: '4bf58dd8d48988d111941735',
+                        text: 'Japanese Restaurant'
+                                                                 },
+                       {
+                        id: '4bf58dd8d48988d16b941735',
+                        text: 'Brazilian Restaurant'
+                                                                 },
+                    {
+                        id: '4bf58dd8d48988d113941735',
+                        text: 'Korean Restaurant'
                                                                  },
                     {
                         id: '4d4b7105d754a06377d81259',
@@ -940,6 +953,7 @@
                 function initHome() {
                     $(".pane").css("background", "url(img/bg-01.png) no-repeat center center fixed");
                     $(".pane").css("background-size", "cover");
+                    changeBack();
                 }
                 initHome();
                 $scope.find = function () {
@@ -950,14 +964,24 @@
                 }
 
             })
-            .controller('Page3Ctrl', function ($scope, treePageService, $ionicPopup) {
+            .controller('Page3Ctrl', function ($scope, treePageService, $ionicPopup,$ionicHistory) {
                 $scope.showonMap = function () {
+                    if($scope.lists.length==0){
+                        //$ionicGoBack();
+                        //$ionicHistory.goBack();
+                        location.href = "#/1";
+                        changeBack();
+                        //$ionicGoBack();
+                    }
+                    else
+                    {
                     if ($("input[type='checkbox']:checked").length == 0) {
                         var alertPopup = $ionicPopup.alert({
                             title: 'Alert!',
                             template: 'Please select at least one of them'
                         });
-                    } else {
+                        } else
+                        {
                         mapLists.clear();
 
 
@@ -971,7 +995,9 @@
 
                         // var tmp= JSON.stringify(lists);
                         location.href = "#/2?from=3";
-                    }
+                        }
+                    
+                        }
 
                 }
 
@@ -980,6 +1006,9 @@
                     $(".pane").css("background-size", "cover");
                     $("#loading").css("display", "block");
                     $(".default-title").text("");
+                    $("#btnShow").removeClass("ion-ios-search").addClass("ion-ios-location-outline");
+                    $("#btnShow").html("&nbsp;&nbsp;Show on Map");
+                     $("#dvMsj").css("display","none");
                     navigator.geolocation.getCurrentPosition(function (pos) {
 
                         var ltl = pos.coords.latitude + "," + pos.coords.longitude;
@@ -996,6 +1025,11 @@
                             //$scope.drawPaths();
                             $scope.lists = t.$values;
                             lists = t.$values;
+                            if(t.$values.length==0){
+                                $("#btnShow").addClass("ion-ios-search").removeClass("ion-ios-location-outline");
+                                $("#btnShow").html("&nbsp;&nbsp;Research");
+                                $("#dvMsj").css("display","block");
+                            }
                             $("#loading").css("display", "none");
 
                         });
@@ -1142,12 +1176,12 @@
                         var p = paths[i];
                         var myLatlng = new google.maps.LatLng(p.location.lat, p.location.lng);
                         markers.push(myLatlng);
-                        var contentString = "<div style='width:205px;height:132px'><p class='inf-name'>{0}</p>".with(p.name);
+                        var contentString = "<div style='width:190px;height:105px'><p class='inf-name'>{0}</p>".with(p.name);
                         contentString += "<p class='inf-name'>{0}</p>".with(p.location.address == null ? "" : p.location.address);
-                        contentString += "<div  style='margin:10px 0 10px 0'><p style='color: #6F6F6F;font-size: 15px;font-family:quicksand-Regular'>Which one prefer:</p></div>"
-                        contentString += "<div><div style='display:inline-block;'><span mode='DRIVING' onclick='setActive(this)' style='font-size:28px;' class='ion-model-s i-dircect active-direct'></span></div>";
-                        contentString += "<div style='display:inline-block;margin-left:25px'><span mode='WALKING' onclick='setActive(this)' style='font-size:28px;color:#ccc' class='ion-android-walk i-dircect'></span></div>";
-                        contentString += "<div style='display:inline-block;margin-left:25px'><button style='background-color:#2e8db2;color:#fff;border-radius: 15px;position: relative;top: -15px;font-size: 13px !important;' class='button button-small button-stable' onclick='setRoute({0})'>Get Direction</button></div></div>".with(i);
+                       // contentString += "<div  style='margin:10px 0 10px 0'><p style='color: #6F6F6F;font-size: 15px;font-family:quicksand-Regular'>Which one prefer:</p></div>"
+                        contentString += "<div style='margin-top:15px'><div style='display:inline-block;'><span mode='WALKING' onclick='setActive(this)' style='font-size:28px;' class=' ion-android-walk i-dircect active-direct'></span></div>";
+                        contentString += "<div style='display:inline-block;margin-left:25px'><span mode='DRIVING' onclick='setActive(this)' style='font-size:28px;color:#ccc' class='ion-model-s i-dircect'></span></div>";
+                        contentString += "<div style='display:inline-block;margin-left:25px;margin-top:5px'><button style='background-color:#2e8db2;color:#fff;border-radius: 15px;position: relative;top: -15px;font-size: 13px !important;' class='button button-small button-stable' onclick='setRoute({0})'>Get Direction</button></div></div>".with(i);
                         var compiled = $compile(contentString)($scope);
                         $scope.createMarker(myLatlng, contentString, (i + 1).toString(), p.name, p);
 
