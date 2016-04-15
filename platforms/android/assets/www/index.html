@@ -264,7 +264,7 @@
         .deactive-direct {
             color: #ccc !important;
         }
-        
+        /* border-width: 1px; 
         .checkbox input:after,
         .checkbox-icon:after {
             -webkit-transition: opacity 0.05s ease-in-out;
@@ -292,8 +292,8 @@
         
         .checkbox input:before,
         .checkbox-icon:before {
-            /* border-width: 1px; */
-            /* border-style: solid; */
+          
+          
             border-radius: 28px;
             background: rgba(245, 245, 245, 0.27) !important;
         }
@@ -308,6 +308,7 @@
         .checkbox-icon:after {
             opacity: 1 !important;
         }
+        */
     </style>
 
     <script type="text/javascript" charset="utf-8">
@@ -417,7 +418,7 @@
                         There is no place near to you please widen your distance .
                     </p>
                 </div>
-                <div ng-repeat="chat in lists">
+                <div ng-repeat="chat in lists | orderBy : '-location.distance':true ">
                     <div style="border-bottom: 1px solid #ccc;padding:5px">
                         <div style="float:left">
                             <div style="display:inline-block;position: relative;">
